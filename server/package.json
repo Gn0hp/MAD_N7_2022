@@ -1,1 +1,26 @@
-{"scripts":{"test":"echo \"Error: no test specified\" && exit 1","start":"npx ts-node index.ts"},"dependencies":{"chatgpt":"^4.2.0","dotenv":"^16.0.3","mongoose":"^6.10.0","openai":"^3.1.0","ora":"^6.1.2"},"devDependencies":{"@types/node":"^18.13.0","ts-node":"^10.9.1","typescript":"^4.9.5"}}
+{
+    "name": "",
+    "version": "1.0.0",
+    "description": "",
+    "author": {
+        "name": "Gn0hp",
+        "email": "gn0hp289@gmail.com"
+    },
+    "license": "MIT",
+    "scripts":{
+        "test":"echo \"Error: no test specified\" && exit 1",
+        "start":"npx ts-node index.ts"
+    },
+    "dependencies":{
+        "chatgpt":"^4.2.0",
+        "dotenv":"^16.0.3",
+        "mongoose":"^6.10.0",
+        "openai":"^3.1.0",
+        "ora":"^6.1.2"
+    },
+    "devDependencies":{
+        "@types/node":"^18.13.0",
+        "ts-node":"^10.9.1",
+        "typescript":"^4.9.5"
+    }
+}

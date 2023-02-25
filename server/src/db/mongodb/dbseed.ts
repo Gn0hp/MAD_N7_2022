@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const MONGOOSE_ADMIN  = mongoose.mongo.Admin;
 import * as dotenv from 'dotenv';
 dotenv.config();
 
@@ -22,9 +23,17 @@ function GetDriverSource() {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         }
-    ).then(() => console.log('DB connected!'))
+    )
+        let connection = mongoose.connection
+        connection.once('open', async () => {
+            const colletion = connection.db.collection("OpenAI_ChatHistories")
+            await colletion.find({}).then((data: any) => {
+                console.log(data)
+            })
+        })
     }
     catch(err) {
         console.log(err)
     }
+
 })()
