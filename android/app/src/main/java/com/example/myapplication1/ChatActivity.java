@@ -8,7 +8,7 @@ import android.view.MenuItem;
 
 import java.util.Objects;
 
-public class HomeActivity extends AppCompatActivity {
+public class ChatActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId()==android.R.id.home){
@@ -23,7 +23,6 @@ public class HomeActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        setContentView(R.layout.home);
-
+        setContentView(R.layout.activity_chat);
     }
 }
