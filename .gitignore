@@ -85,3 +85,5 @@ lint/tmp/
 # lint/reports/
 node_modules
 server/.env
+
+android/.idea
