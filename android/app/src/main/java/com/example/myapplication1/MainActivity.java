@@ -12,3 +12,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.login);
     }
 }
+
+//git add .
+//git commit -m "message"
+//git push origin dev-linh-android
+
+// git pull origin develop
