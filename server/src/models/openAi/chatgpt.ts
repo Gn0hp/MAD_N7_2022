@@ -6,15 +6,15 @@ dotenv.config();
 
 export default class ChatGPTService implements GPTInterface{ 
 
-    _openAiConfig = new Configuration({
-        apiKey: process.env.OPENAI_APIKEY,
-    })
-    
+    _openAiConfig
     
     _rolePlayIntroduction
 
-    constructor(description: string) {
+    constructor(description: string, apiKey: string) {
         this._rolePlayIntroduction = description;
+        this._openAiConfig = new Configuration({
+            apiKey: apiKey,
+        })
     }
 
     generateCompletion = async (prompt) => {
@@ -25,7 +25,7 @@ export default class ChatGPTService implements GPTInterface{
         fullPrompt += `AI: `;
 
         const completions = await ChatGPT.createCompletion({
-            model: 'text-davinci=003',
+            model: 'text-davinci-003',
             prompt: fullPrompt,
             temperature: 0.5,
             max_tokens: 2000,
