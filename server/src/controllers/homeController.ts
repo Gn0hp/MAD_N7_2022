@@ -1,6 +1,5 @@
-class HomeController {
-    home(res,req) {
-        res.status(200).send('access to home successfully');
+export class HomeController {
+    home(req,res) {
+        res.status(200).send('Access to home route!')
     }
 }
-module.exports = new HomeController();

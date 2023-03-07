@@ -6,8 +6,8 @@ dotenv.config();
 const connectionString = 'mongodb+srv://'
 
 function GetDriverSource() {
-    let user = process.env.DB_USER;
-    let password = process.env.DB_PASSWORD;
+    let user = process.env.DB_USER_01;
+    let password = process.env.DB_PASSWORD_01;
     let host = process.env.DB_HOST;
     let retryWrite = process.env.DB_RETRYWRITE;
     let w = process.env.DB_W;
@@ -17,6 +17,7 @@ function GetDriverSource() {
 export async function connect(){
     let url = GetDriverSource();
     try {
+        console.log('connect string: ',url)
         mongoose.set('strictQuery',false)
         await mongoose.connect(
             url,

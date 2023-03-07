@@ -1,9 +1,8 @@
+import { HomeController } from "../controllers/homeController"
 
 const Express = require('express')
-const router = Express.Router()
+export const router = Express.Router()
 
-const homeController =  require('../controllers/homeController')
+const homeController = new HomeController()
 
 router.get('/', homeController.home)
-
-module.exports = router;

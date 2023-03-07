@@ -1,7 +1,9 @@
-const homeRouter  =  require('./homeRouter')
-const gptRouter = require('./gptRouter')
-function route(app){
+import { router as GPTRouter} from "./gptRouter";
+import { router as HomeRouter} from "./homeRouter";
+
+const homeRouter = HomeRouter
+const gptRouter = GPTRouter
+export function route(app){
     app.use('/', homeRouter)
-    app.use('/chatgpt', )
+    app.use('/chatgpt', gptRouter)
 }
-module.exports = route;

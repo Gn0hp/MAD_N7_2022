@@ -1,6 +1,7 @@
+import { GPTController} from "../controllers/gptController"
 
-const gptCOntroller =  require('../controllers/gptController')
+const Express = require('express')
+const gptController = new GPTController()
+export const router = Express.Router()
 
-router.get('/', homeController.home)
-
-module.exports = router;
+router.get('/', gptController.home)

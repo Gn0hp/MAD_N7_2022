@@ -1,6 +1,7 @@
+import { route } from "./routes";
+
 const path = require('path');
 const express = require('express');
-const Route = require('./routes/index')
 const app = express();
 const port = 3124
 
@@ -13,4 +14,4 @@ app.listen(port, () => {
     console.log(`server started listenning at http://localhost:${port}`)
 });
 
-Route(app)
+route(app)
