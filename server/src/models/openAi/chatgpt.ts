@@ -2,6 +2,7 @@ import {Configuration, OpenAIApi} from "openai";
 //using dotenv to call the api key from .env file
 import * as dotenv from 'dotenv';
 import GPTInterface from "./GPTInterface";
+import { CHATGPT_MODEL_STABLE } from "../../utils/Constant";
 dotenv.config();
 
 export default class ChatGPTService implements GPTInterface{ 
@@ -23,17 +24,29 @@ export default class ChatGPTService implements GPTInterface{
 
         fullPrompt += `User: ${prompt}\n`;
         fullPrompt += `AI: `;
-
-        const completions = await ChatGPT.createCompletion({
-            model: 'text-davinci-003',
-            prompt: fullPrompt,
+        console.log('sending request to openai...')
+        const completions = await ChatGPT.createChatCompletion({
+            model: CHATGPT_MODEL_STABLE,
+            // prompt: fullPrompt,
+            messages: [{
+                role: 'user',
+                content: fullPrompt
+            }],
             temperature: 0.5,
             max_tokens: 2000,
             top_p: 1,
             frequency_penalty: 0,
             presence_penalty: 0,
         })
-        return completions?.data?.choices[0]?.text?.replace(/^\s+|\s+$/g, "");
-        
+        return completions?.data?.choices[0]?.message
+        // ?.replace(/^\s+|\s+$/g, "");
+    }
+    generateChatCompletion = async ( prompt) => {
+        let model = 'gpt-3.5-turbo'
+        let fullPrompt = this._rolePlayIntroduction +'\n\n';
+        this._continueChatCompletion(fullPrompt, prompt)
+    }
+    _continueChatCompletion = async (lastPrompt, prompt) => {
+
     }
 }
