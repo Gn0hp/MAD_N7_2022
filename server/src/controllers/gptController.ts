@@ -1,3 +1,4 @@
+import { Message } from "../models/entities/Message"
 import ChatGPTService from "../models/openAi/chatgpt"
 
 export class GPTController {
@@ -7,9 +8,23 @@ export class GPTController {
     }
 
     async chat(req,res) {
+        let bodyParser = req.body
+        let prompt = bodyParser?.prompt
+        console.log('prompt: ', prompt)
         let chatgpt = new ChatGPTService("",process.env.OPENAI_APIKEY)
-        let response = await chatgpt.generateCompletion("hey")
+        let response = await chatgpt.generateCompletion(prompt)
         console.log(response)
         res.status(200).send(response)
+        console.log(Message)
+    }
+    async postChat(req,res) {
+        let bodyParser = req.body
+        let prompt = bodyParser?.prompt
+        console.log('prompt: ', prompt)
+        let chatgpt = new ChatGPTService("",process.env.OPENAI_APIKEY)
+        let response = await chatgpt.generateCompletion(prompt)
+        console.log(response)
+        res.status(200).send(response)
+        console.log(Message)
     }
 }
