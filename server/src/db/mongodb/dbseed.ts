@@ -15,7 +15,7 @@ function GetDriverSource() {
     return `${connectionString}${user}:${password}@${host}?retryWrites=${retryWrite}&w=${w}`
 }
 export class DBService {
-    _connection;
+    
     async connect(){
         let url = GetDriverSource();
         try {

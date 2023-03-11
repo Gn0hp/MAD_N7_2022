@@ -18,7 +18,7 @@ export default class ChatGPTService implements GPTInterface{
         })
     }
 
-    generateCompletion = async (prompt) => {
+    generateCompletion = async (prompt: any) => {
         let fullPrompt = this._rolePlayIntroduction +`${prompt}`+'\n\n';
         let ChatGPT = new OpenAIApi(this._openAiConfig);
 
