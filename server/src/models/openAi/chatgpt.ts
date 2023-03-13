@@ -18,7 +18,7 @@ export default class ChatGPTService implements GPTInterface{
         })
     }
 
-    generateCompletion = async (prompt: any) => {
+    generateChatCompletion = async (prompt) => {
         let fullPrompt = this._rolePlayIntroduction +`${prompt}`+'\n\n';
         let ChatGPT = new OpenAIApi(this._openAiConfig);
 
@@ -39,12 +39,9 @@ export default class ChatGPTService implements GPTInterface{
         return completions?.data?.choices[0]?.message
         // ?.replace(/^\s+|\s+$/g, "");
     }
-    generateChatCompletion = async ( prompt) => {
+    continueChatCompletion = async ( prompt) => {
         let model = 'gpt-3.5-turbo'
         let fullPrompt = this._rolePlayIntroduction +'\n\n';
-        this._continueChatCompletion(fullPrompt, prompt)
-    }
-    _continueChatCompletion = async (lastPrompt, prompt) => {
-
+        
     }
 }

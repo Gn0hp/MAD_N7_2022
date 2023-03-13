@@ -15,7 +15,7 @@
         android:paddingTop="4dp"
         android:paddingEnd="8dp"
         android:paddingBottom="4dp"
-        android:text="June 10"
+        android:text=""
         android:textColor="#C0C0C0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,7 +25,7 @@
         android:id="@+id/card_gchat_message_me"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="#774df2"
+        app:cardBackgroundColor="@color/item_chat_me"
         app:cardCornerRadius="12dp"
         app:cardElevation="0dp"
         app:cardPreventCornerOverlap="false"
@@ -49,7 +49,7 @@
                 android:paddingTop="8dp"
                 android:paddingRight="12dp"
                 android:text="This is a Message"
-                android:textColor="#ffffff"
+                android:textColor="@color/item_chat_text_me"
                 android:textSize="16sp" />
         </LinearLayout>
 

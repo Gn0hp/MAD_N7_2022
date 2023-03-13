@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+<!--  BASE  -->
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
@@ -11,4 +12,11 @@
     <color name="font_icon">#69B66C</color>
     <color name="bg_1EF">#E2F1EF</color>
     <color name="colorPrimary">#E2F1EF</color>
+
+<!--chat item setup-->
+    <color name="item_chat_me">#774df2</color>
+    <color name="item_chat_other">#eef1f6</color>
+    <color name="item_chat_text_me">#ffffff</color>
+    <color name="item_chat_text_other">#000000</color>
+
 </resources>
