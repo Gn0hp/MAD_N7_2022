@@ -8,11 +8,11 @@ export class GPTController {
     }
 
     async chat(req,res) {
-        let chatgpt = new ChatGPTService(process.env.CHATGPT_ROLE_CHAT_BOT as string,process.env.OPENAI_APIKEY as string)
-        let response = await chatgpt.generateCompletion(prompt)
-        console.log(response)
-        res.status(200).send(response)
-        console.log(Message)
+        // let chatgpt = new ChatGPTService(process.env.CHATGPT_ROLE_CHAT_BOT as string,process.env.OPENAI_APIKEY as string)
+        // let response = await chatgpt.generateCompletion(prompt)
+        // console.log(response)
+        // res.status(200).send(response)
+        // console.log(Message)
     }
     async postChat(req,res) {
         let bodyParser = req.body
@@ -20,8 +20,6 @@ export class GPTController {
         console.log('prompt: ', prompt)
         let chatgpt = new ChatGPTService(process.env.CHATGPT_ROLE_CHAT_BOT as string,process.env.OPENAI_APIKEY as string)
         let response = await chatgpt.generateCompletion(prompt)
-        console.log(response)
         res.status(200).send(response)
-        console.log(Message)
     }
 }

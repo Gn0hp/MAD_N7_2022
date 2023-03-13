@@ -3,6 +3,8 @@ import {Configuration, OpenAIApi} from "openai";
 import * as dotenv from 'dotenv';
 import GPTInterface from "./GPTInterface";
 import { CHATGPT_MODEL_STABLE } from "../../utils/Constant";
+import { Message } from "../entities/Message";
+import { ChatCompletion } from "../entities/ChatCompletion";
 dotenv.config();
 
 export default class ChatGPTService implements GPTInterface{ 
@@ -17,9 +19,71 @@ export default class ChatGPTService implements GPTInterface{
             apiKey: apiKey,
         })
     }
+    generateCompletion = async (prompt: string) => {
+        let fullPrompt = this._rolePlayIntroduction +`${prompt}`+'\n\n';
+        let ChatGPT = new OpenAIApi(this._openAiConfig);
+
+        console.log('sending request to openai...')
+        let temperature = 0.5
+        let max_tokens = 2000
+        let top_p = 1
+        let frequency_penalty = 0
+        let presence_penalty = 0
+        const completions = await ChatGPT.createChatCompletion({
+            model: CHATGPT_MODEL_STABLE,
+            // prompt: fullPrompt,
+            messages: [{
+                role: 'user',
+                content: fullPrompt
+            }],
+            temperature,
+            max_tokens,
+            top_p,
+            frequency_penalty,
+            presence_penalty,
+        })
+        console.log("response: ", completions)
+        let message = completions?.data?.choices[0]?.message
+        if(message) {
+            let chatCompletion = new ChatCompletion({
+                api_object_id: completions?.data?.id,
+                model: completions?.data?.model,
+                temperature,
+                max_tokens,
+                top_p,
+                frequency_penalty,
+                presence_penalty,
+                prompt_tokens: completions?.data?.usage?.prompt_tokens,
+                completion_tokens: completions?.data?.usage?.completion_tokens,
+                total_tokens: completions?.data?.usage?.total_tokens,
+                user_id: "",
+            })
+            chatCompletion.save((err) => {
+                if(err){
+                    console.log(err)
+                    return
+                }
+            })
+            let messReq = new Message({
+                role: 'user',
+                content: fullPrompt,
+                chat_completion_id: chatCompletion._id,
+            })
+            let messRes = new Message({
+                role: message?.role,
+                content: message?.content,
+                chat_completion_id: chatCompletion._id,
+            })
+            Message.insertMany([messReq, messRes], (err) => {
+                if(err){
+                    console.log(err)
+                    return
+                }
+            })
+        }
+    }
 
     generateChatCompletion = async (prompt) => {
-        let fullPrompt = this._rolePlayIntroduction +`${prompt}`+'\n\n';
         let ChatGPT = new OpenAIApi(this._openAiConfig);
 
         console.log('sending request to openai...')
@@ -28,7 +92,7 @@ export default class ChatGPTService implements GPTInterface{
             // prompt: fullPrompt,
             messages: [{
                 role: 'user',
-                content: fullPrompt
+                content: prompt
             }],
             temperature: 0.5,
             max_tokens: 2000,
@@ -39,9 +103,5 @@ export default class ChatGPTService implements GPTInterface{
         return completions?.data?.choices[0]?.message
         // ?.replace(/^\s+|\s+$/g, "");
     }
-    continueChatCompletion = async ( prompt) => {
-        let model = 'gpt-3.5-turbo'
-        let fullPrompt = this._rolePlayIntroduction +'\n\n';
-        
-    }
+
 }

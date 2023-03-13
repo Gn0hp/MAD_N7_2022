@@ -13,8 +13,6 @@ RUN npm install
 # Copy the rest of the app files
 COPY . .
 
-#
-RUN cp .env.example .env
 
 # Specify the command to run the app
 CMD ["npm", "start"]

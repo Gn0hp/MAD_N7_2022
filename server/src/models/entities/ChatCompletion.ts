@@ -10,7 +10,6 @@ const schema = new mongoose.Schema({
     top_p: Number,
     frequency_penalty: Number,
     presence_penalty: Number,
-    object: String,
     prompt_tokens: Number,
     completion_tokens: Number,
     total_tokens: Number,
