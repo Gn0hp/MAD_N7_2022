@@ -3,7 +3,11 @@ import { Schema } from "mongoose";
 const mongoose = require('mongoose');
 
 const schema = new mongoose.Schema({
-    api_object_id: String,
+    api_object_id: {
+        type: String,
+        index: true,
+        unique: true,
+    } ,
     model: String,
     temperature: Number,
     max_tokens: Number,

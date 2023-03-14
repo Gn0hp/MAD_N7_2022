@@ -8,13 +8,27 @@ export class RegisterController {
             password: req?.body?.password,
             avatar: req?.body?.avatar,
         })
+        
         console.log('saving')
-        await user.save(err => {
-            if(err){
-                console.log(err)
-                return
-            }
-        })
+        let [savingRes, savingErr] = await User.registerUser(user)
+        if(!savingRes) {
+            res.status(400).send(`Save user failed: ${savingErr} `)
+            return
+        }
         res.status(200).send('Save user successfully')
+    }
+    async login(req,res){
+        let user = new User({
+            name: req?.body?.name,
+            email: req?.body?.email,
+            password: req?.body?.password,
+            avatar: req?.body?.avatar,
+        })
+        let [loginRes, loginErr] = await User.checkLogin(user)
+        if(!loginRes){
+            res.status(400).send(`Login failed: ${loginErr}`)
+            return
+        }
+        res.status(200).send('Login successfully')
     }
 }
