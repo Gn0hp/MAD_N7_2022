@@ -19,7 +19,7 @@ export default class ChatGPTService implements GPTInterface{
             apiKey: apiKey,
         })
     }
-    generateCompletion = async (prompt: string) => {
+    generateCompletion = async (prompt: string, userID: string) => {
         let fullPrompt = this._rolePlayIntroduction +`${prompt}`+'\n\n';
         let ChatGPT = new OpenAIApi(this._openAiConfig);
 
@@ -56,7 +56,7 @@ export default class ChatGPTService implements GPTInterface{
                 prompt_tokens: completions?.data?.usage?.prompt_tokens,
                 completion_tokens: completions?.data?.usage?.completion_tokens,
                 total_tokens: completions?.data?.usage?.total_tokens,
-                user_id: "",
+                user_id: userID,
             })
             chatCompletion.save((err) => {
                 if(err){
