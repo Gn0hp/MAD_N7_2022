@@ -17,9 +17,13 @@ export class GPTController {
     async postChat(req,res) {
         let bodyParser = req.body
         let prompt = bodyParser?.prompt
+        let userID = bodyParser?.username
         console.log('prompt: ', prompt)
         let chatgpt = new ChatGPTService(process.env.CHATGPT_ROLE_CHAT_BOT as string,process.env.OPENAI_APIKEY as string)
-        let response = await chatgpt.generateCompletion(prompt)
+        let response = await chatgpt.generateCompletion(prompt,userID)
         res.status(200).send(response)
+    }
+    async continueChat(req,res){
+
     }
 }

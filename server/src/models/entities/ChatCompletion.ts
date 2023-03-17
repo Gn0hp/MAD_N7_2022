@@ -22,4 +22,8 @@ const schema = new mongoose.Schema({
     timestamps: true
 })
 
+schema.methods.findByUserId = async function findByUserId(id) {
+    return await mongoose.model('ChatCompletion').find({user_id: id})
+}
+
 export const ChatCompletion = mongoose.model('ChatCompletion', schema);

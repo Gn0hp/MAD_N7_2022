@@ -10,4 +10,8 @@ const schema = new mongoose.Schema({
     timestamps: true
 })
 
+schema.methods.findByChatCompletionId = async function findByChatCompletionId(id) {
+    return await mongoose.model('Message').find({chat_completion_id: id}).sort({createdAt: 1})
+}
+
 export const Message = mongoose.model('Message', schema);

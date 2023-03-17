@@ -1,6 +1,6 @@
 export default interface GPTInterface {
     _rolePlayIntroduction
     
-    generateCompletion(prompt: string);
+    generateCompletion(prompt: string, userID: string);
     generateChatCompletion(prompt: string)
 }
