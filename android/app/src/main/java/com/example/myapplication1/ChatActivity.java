@@ -7,15 +7,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.example.myapplication1.adapters.MessageListAdapter;
 import com.example.myapplication1.models.bases.BaseMessage;
+import com.example.myapplication1.utils.HttpRequest;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class ChatActivity extends AppCompatActivity {
+    RecyclerView messageRecyclerView;
+    MessageListAdapter messageListAdapter;
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId()==android.R.id.home){
@@ -26,22 +33,40 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setContentView(R.layout.activity_chat);
+        ImageButton sendMessageBtn = findViewById(R.id.button_gchat_send);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        RecyclerView messageRecyclerView;
-        MessageListAdapter messageListAdapter;
 
-        messageRecyclerView= findViewById(R.id.recycler_gchat);
+        messageRecyclerView= (RecyclerView)findViewById(R.id.recycler_gchat);
+
+        System.out.println("-------"+ messageRecyclerView);
 
         //get message
         List<BaseMessage> arr = new ArrayList<BaseMessage>();
-
         messageListAdapter = new MessageListAdapter(this, arr);
         messageRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         messageRecyclerView.setAdapter(messageListAdapter);
+        HttpRequest httpRequest = new HttpRequest("http://10.0.2.2");
+        sendMessageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Thread thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try{
+                            String resTest = httpRequest.get(":3124");
+                            System.out.println(resTest);
+                        } catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                thread.start();
 
-        setContentView(R.layout.activity_chat);
+            }
+        });
+
     }
 }
