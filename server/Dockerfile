@@ -19,4 +19,5 @@ CMD ["npm", "start"]
 
 
 FROM base as product
-# build
+# build 
+# RUN npm run build

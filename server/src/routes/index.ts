@@ -9,5 +9,6 @@ const registerRouter = RegisterRouter
 export function route(app: any){
     app.use('/chatgpt', gptRouter)
     app.use('/register', registerRouter)
+    app.use('querydb', )
     app.use('/', homeRouter)
 }

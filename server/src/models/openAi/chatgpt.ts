@@ -80,7 +80,9 @@ export default class ChatGPTService implements GPTInterface{
                     return
                 }
             })
+            return [message, chatCompletion._id]
         }
+        return [null, null]
     }
 
     generateChatCompletion = async (prompt) => {
