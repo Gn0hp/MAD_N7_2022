@@ -39,7 +39,7 @@
             android:id="@+id/username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Số điện thoại"
+            android:text="Tài khoản"
             android:textColor="#009688"
             android:textStyle="bold"
             android:layout_marginTop="16dp"
@@ -47,21 +47,21 @@
             />
 
         <EditText
-            android:id="@+id/edPhoneNumber"
+            android:id="@+id/edUsername"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_below="@id/username"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:ems="10"
-            android:inputType="phone"
+            android:inputType="text"
             tools:text="@tools:sample/us_phones" />
 
         <TextView
             android:id="@+id/password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/edPhoneNumber"
+            android:layout_below="@id/edUsername"
             android:layout_marginTop="16dp"
             android:text="Mật khẩu"
             android:textColor="#009688"

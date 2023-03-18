@@ -1,10 +1,13 @@
 import { Model } from "mongoose";
 
 export interface IUser{
+
     name: string;
     email: string;
     password: string;
-    avatar: string
+    profileURL: string;
+    username: string;
+    phoneNumber: string;
 }
 export interface IUserMethods{
     checkLogin();

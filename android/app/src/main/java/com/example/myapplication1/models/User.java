@@ -1,21 +1,35 @@
 package com.example.myapplication1.models;
 
 import com.example.myapplication1.models.bases.IUser;
+import com.example.myapplication1.utils.HttpRequest;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class User extends IUser {
     private String phoneNumber;
     private String nickName;
     private String profileUrl;
+    private String username;
+    private String password;
     public User(){
         super();
     }
-    public User(String id, String name, String email, String phoneNumber, String nickName, String profileUrl){
+    public User(String id, String name, String email, String phoneNumber, String nickName, String profileUrl, String username, String password){
         super(id,name,email);
         this.phoneNumber = phoneNumber;
         this.nickName = nickName;
         this.profileUrl = profileUrl;
+        this.username = username;
+        this.password = password;
     }
-
+    public User(String username, String password){
+        this.username = username;
+        this.password= password;
+    }
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -40,6 +54,38 @@ public class User extends IUser {
         this.profileUrl = profileUrl;
     }
 
+    public boolean authenLogin(String json){
+        HttpRequest httpRequest = new HttpRequest("http://10.0.2.2:3124");
+        final JSONObject[] jsonRes = new JSONObject[1];
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                 jsonRes[0] = httpRequest.post(json,"/register/login");
+
+            }
+        });
+        thread.start();
+        try {
+            Thread.sleep(500);
+            System.out.println(jsonRes[0].get("_id"));
+
+        } catch (InterruptedException | JSONException e) {
+            throw new RuntimeException(e);
+        }
+        return true;
+    }
+    public JSONObject toJson(){
+        Map<String, String> res= new HashMap<>();
+        res.put("id", this.id);
+        res.put("name", this.name);
+        res.put("email", this.email);
+        res.put("phone_number", this.phoneNumber);
+        res.put("profile_url", this.profileUrl);
+        res.put("nick_name", this.nickName);
+        res.put("username", this.username);
+        res.put("password", this.password);
+        return new JSONObject(res);
+    }
     @Override
     public String toString() {
         return "User{" +

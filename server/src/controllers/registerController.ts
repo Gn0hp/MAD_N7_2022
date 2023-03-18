@@ -6,7 +6,7 @@ export class RegisterController {
             name: req?.body?.name,
             email: req?.body?.email,
             password: req?.body?.password,
-            avatar: req?.body?.avatar,
+            profileURL: req?.body?.profile_url,
         })
         
         console.log('saving')
@@ -20,15 +20,16 @@ export class RegisterController {
     async login(req,res){
         let user = new User({
             name: req?.body?.name,
+            username: req?.body?.username,
             email: req?.body?.email,
             password: req?.body?.password,
-            avatar: req?.body?.avatar,
+            profileURL: req?.body?.profile_url,
         })
-        let [loginRes, loginErr] = await User.checkLogin(user)
+        let [loginRes, loginErr, userDB] = await User.checkLogin(user)
         if(!loginRes){
-            res.status(400).send(`Login failed: ${loginErr}`)
+            res.status(200).send(null)     
             return
         }
-        res.status(200).send('Login successfully')
+        res.status(200).send(userDB)
     }
 }

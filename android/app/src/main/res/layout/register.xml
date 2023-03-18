@@ -42,7 +42,7 @@
         tools:ignore="MissingConstraints">
 
         <EditText
-            android:id="@+id/edPhoneNumber"
+            android:id="@+id/edUsername"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginLeft="8dp"
@@ -58,7 +58,7 @@
             android:id="@+id/edTextName"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_below="@id/edPhoneNumber"
+            android:layout_below="@id/edUsername"
             android:layout_marginLeft="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginRight="8dp"

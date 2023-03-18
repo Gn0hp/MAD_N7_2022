@@ -5,13 +5,15 @@ const mongoose = require('mongoose');
 
 const schema = new Schema<IUser, UserModel, IUserMethods>({
     name: String,
-    email: {
+    email: String,
+    password: String,
+    profileURL: String,
+    username: {
         type: String,
         unique: true,
         index: true,
     },
-    password: String,
-    avatar: String,
+    phoneNumber: String,
     }, {
     timestamps: true
     }
@@ -19,11 +21,11 @@ const schema = new Schema<IUser, UserModel, IUserMethods>({
 
 schema.statics.checkLogin = async function checkLogin(u) {
     let user = await mongoose.model('User').findOne(
-        { email: u.email})
+        { username: u.username})
     if(user && user.password === u.password) {
-        return [true, null]
+        return [true, null,user]
     }
-    return [false, new Error('Wrong password or invalid user')]
+    return [false, new Error('Wrong password or invalid user'), null]
 }
 schema.statics.registerUser = async function registerUser(u) {
     let existEmail = await mongoose.model('User').findOne({

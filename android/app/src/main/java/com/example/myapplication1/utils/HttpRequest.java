@@ -1,6 +1,11 @@
 package com.example.myapplication1.utils;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -26,25 +31,42 @@ public class HttpRequest {
         try{
             Response res = client.newCall(req).execute();
             assert res.body() != null;
-            return res.body().string();
+            String returnRes = res.body().string();
+
+//            JSONObject jsonObject = new JSONObject(returnRes);
+
+            res.close();
+            return  returnRes;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+//        catch (JSONException e) {
+//            throw new RuntimeException(e);
+//        }
     }
-    public String post(){
+    public JSONObject post(String jsons, String endpoints){
         MediaType JSON = MediaType.get("application/json; charset=utf-8");
 
-        RequestBody body = RequestBody.create("", JSON);
+        RequestBody body = RequestBody.create(jsons, JSON);
 
         Request req = new Request.Builder()
-                .url(url)
+                .url(url.concat(endpoints))
                 .post(body)
                 .build();
         try {
             Response res = client.newCall(req).execute();
             assert res.body() != null;
-            return res.body().string();
-        } catch (IOException e) {
+            String returnRes = res.body().string();
+
+            if(!returnRes.equals("") || returnRes != null){
+                JSONObject jsonObject = new JSONObject(returnRes);
+
+                res.close();
+                return jsonObject;
+            }
+            return new JSONObject("");
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
