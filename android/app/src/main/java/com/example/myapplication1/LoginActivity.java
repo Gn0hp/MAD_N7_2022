@@ -3,17 +3,23 @@ package com.example.myapplication1;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.myapplication1.models.User;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
@@ -37,9 +43,18 @@ public class LoginActivity extends AppCompatActivity {
 
         Button btnLogin = findViewById(R.id.buttonLogin);
 
+
+
+
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                CircularProgressIndicator circleLoadingProgress = findViewById(R.id.circleLoadingProgress);
+                btnLogin.setVisibility(View.GONE);
+                circleLoadingProgress.setVisibility(View.VISIBLE);
+                circleLoadingProgress.setIndeterminate(true);
+
+
                 String username = edUsername.getText().toString();
                 String password = edPassword.getText().toString();
 
@@ -49,11 +64,29 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 User user = new User(username, password);
 
-                boolean checkLogin = user.authenLogin(user.toJson().toString());
-//                if(checkLogin) {
-//
-//                    startActivity(new Intent(getApplicationContext(), HomeActivity.class));
-//                }
+                user = user.authenLogin(user.toJson().toString());
+                if(user != null){
+                    try{
+                        FileOutputStream out = getApplicationContext().openFileOutput("user_session_info", Context.MODE_PRIVATE);
+                        out.write(user.toString().getBytes());
+                        out.close();
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                startActivity(new Intent(getApplicationContext(), MainActivity2.class));
+
+                                finish();
+                            }
+                        }, 2000);
+
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }else{
+                    startActivity(new Intent(getApplicationContext(), this.getClass()));
+
+                }
             }
         });
     }

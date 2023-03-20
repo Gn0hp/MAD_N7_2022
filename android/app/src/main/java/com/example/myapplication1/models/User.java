@@ -1,11 +1,15 @@
 package com.example.myapplication1.models;
 
+import android.content.Context;
+
 import com.example.myapplication1.models.bases.IUser;
 import com.example.myapplication1.utils.HttpRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,7 +58,7 @@ public class User extends IUser {
         this.profileUrl = profileUrl;
     }
 
-    public boolean authenLogin(String json){
+    public User authenLogin(String json){
         HttpRequest httpRequest = new HttpRequest("http://10.0.2.2:3124");
         final JSONObject[] jsonRes = new JSONObject[1];
         Thread thread = new Thread(new Runnable() {
@@ -67,12 +71,27 @@ public class User extends IUser {
         thread.start();
         try {
             Thread.sleep(500);
-            System.out.println(jsonRes[0].get("_id"));
+            if(jsonRes[0] == null){
+                return null;
+            }
+
+            User u = new User(
+                    (String) jsonRes[0].get("_id"),
+                    (String) jsonRes[0].get("name"),
+                    (String) jsonRes[0].get("email"),
+                    (String) jsonRes[0].get("phoneNumber"),
+                    (String) jsonRes[0].get("username"),
+                    (String) jsonRes[0].get("profileURL"),
+                    (String) jsonRes[0].get("username"),
+                    (String) jsonRes[0].get("password")
+
+            );
+            return u;
 
         } catch (InterruptedException | JSONException e) {
             throw new RuntimeException(e);
         }
-        return true;
+
     }
     public JSONObject toJson(){
         Map<String, String> res= new HashMap<>();

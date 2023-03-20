@@ -17,34 +17,36 @@ public class HttpRequest {
     private OkHttpClient client;
     private String url;
 
-    public HttpRequest(String url){
+    public HttpRequest(String url) {
         client = new OkHttpClient();
         this.url = url;
     }
-    public String get(String params){
+
+    public String get(String params) {
         String Url = url.concat(params);
         System.out.println(Url);
         Request req = new Request.Builder()
                 .url(Url)
                 .build();
 
-        try{
+        try {
             Response res = client.newCall(req).execute();
-            assert res.body() != null;
-            String returnRes = res.body().string();
+            if (res.code() == 200 && res.body() != null) {
+                String returnRes = res.body().string();
 
-//            JSONObject jsonObject = new JSONObject(returnRes);
+                //            JSONObject jsonObject = new JSONObject(returnRes);
 
-            res.close();
-            return  returnRes;
+                res.close();
+                return returnRes;
+            }
+            return null;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-//        catch (JSONException e) {
-//            throw new RuntimeException(e);
-//        }
+
     }
-    public JSONObject post(String jsons, String endpoints){
+
+    public JSONObject post(String jsons, String endpoints) {
         MediaType JSON = MediaType.get("application/json; charset=utf-8");
 
         RequestBody body = RequestBody.create(jsons, JSON);
@@ -55,17 +57,22 @@ public class HttpRequest {
                 .build();
         try {
             Response res = client.newCall(req).execute();
-            assert res.body() != null;
-            String returnRes = res.body().string();
-
-            if(!returnRes.equals("") || returnRes != null){
-                JSONObject jsonObject = new JSONObject(returnRes);
-
-                res.close();
-                return jsonObject;
+            if (res.code() == 200 && res.body() != null) {
+                String resBody = res.body().string();
+                if (!resBody.trim().isEmpty()) {
+                    JSONObject jsonObject;
+                    try {
+                        jsonObject = new JSONObject(resBody);
+                    } catch (JSONException e) {
+                        jsonObject = null;
+                    }
+                    return jsonObject;
+                }
+                return null;
             }
-            return new JSONObject("");
-        } catch (IOException | JSONException e) {
+
+            return null;
+        } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
