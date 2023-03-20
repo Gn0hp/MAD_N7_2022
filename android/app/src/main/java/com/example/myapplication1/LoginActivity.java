@@ -65,6 +65,7 @@ public class LoginActivity extends AppCompatActivity {
                 User user = new User(username, password);
 
                 user = user.authenLogin(user.toJson().toString());
+                System.out.println(user);
                 if(user != null){
                     try{
                         FileOutputStream out = getApplicationContext().openFileOutput("user_session_info", Context.MODE_PRIVATE);

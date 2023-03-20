@@ -32,7 +32,7 @@ schema.statics.registerUser = async function registerUser(u) {
         username: u.username
     })
     if(existUser){
-        return [false, new Error('Exist email')]
+        return [false, new Error('Exist username')]
     }
     u.save((err) => {
         if(err){

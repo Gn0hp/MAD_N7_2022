@@ -34,6 +34,11 @@ public class User extends IUser {
         this.username = username;
         this.password= password;
     }
+    public User(String email, String username, String password){
+        this.email = email;
+        this.username = username;
+        this.password= password;
+    }
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -92,6 +97,30 @@ public class User extends IUser {
             throw new RuntimeException(e);
         }
 
+    }
+    public boolean registerNewUser(String json){
+        HttpRequest httpRequest = new HttpRequest("http://10.0.2.2:3124");
+        final JSONObject[] jsonRes = new JSONObject[1];
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                jsonRes[0] = httpRequest.post(json,"/register/signup");
+
+            }
+        });
+        thread.start();
+        try {
+            Thread.sleep(500);
+            if(jsonRes[0] == null){
+                return false;
+            }
+            String resResult = jsonRes[0].get("response").toString();
+            return resResult.equals("true");
+
+
+        } catch (InterruptedException | JSONException e) {
+            throw new RuntimeException(e);
+        }
     }
     public JSONObject toJson(){
         Map<String, String> res= new HashMap<>();

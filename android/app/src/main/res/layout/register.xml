@@ -41,90 +41,131 @@
         app:layout_constraintTop_toBottomOf="@+id/Registration"
         tools:ignore="MissingConstraints">
 
-        <EditText
-            android:id="@+id/edFullName"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/edEmail"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginLeft="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginRight="8dp"
             android:ems="10"
-            android:inputType="text"
-            android:text="Full Name"
-            android:textColor="#B6A8A8"
-            android:textSize="12sp" />
 
-        <EditText
+            app:startIconDrawable="@drawable/baseline_email_24"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:hint="Email"
+                android:textSize="10sp"
+
+
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/edUsername"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_below="@id/edFullName"
+            android:layout_below="@id/edEmail"
             android:layout_marginLeft="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginRight="8dp"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Username"
-            android:textColor="#B6A8A8"
-            android:textSize="12sp" />
 
-        <EditText
+            app:startIconDrawable="@drawable/user_svgrepo_com"
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Username"
+                android:inputType="text"
+                android:textSize="10sp"
+
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/edPassword"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            app:endIconMode="password_toggle"
             android:layout_below="@id/edUsername"
             android:layout_marginLeft="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginRight="8dp"
             android:ems="10"
-            android:inputType="textPassword"
-            android:text="Mật khẩu"
-            android:textColor="#B6A8A8"
-            android:textSize="12sp" />
+
+            app:startIconDrawable="@drawable/baseline_password_24"
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:textSize="10sp"
+
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/edRepeatPassword"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_below="@id/edPassword"
             android:layout_marginLeft="8dp"
             android:layout_marginTop="8dp"
-            app:endIconMode="password_toggle"
             android:layout_marginRight="8dp"
             android:ems="10"
-            android:inputType="textPassword"
-            android:text="Nhập lại mật khẩu"
-            android:textColor="#B6A8A8"
-            android:textSize="12sp" >
+
+            app:startIconDrawable="@drawable/baseline_password_24"
+             >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Password"
+                android:inputType="textPassword"
+                android:hint="Confirm Password"
+                android:textSize="10sp"
+
                 />
         </com.google.android.material.textfield.TextInputLayout>
-
+        <FrameLayout
+            android:id="@+id/edRegisterBtnContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/edRepeatPassword"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true">
         <Button
             android:id="@+id/buttonRegistration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/edRepeatPassword"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="50dp"
-            android:text="Đăng ký" />
+            android:layout_gravity="center"
 
+            android:text="Register" />
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/circleLoadingProgress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_gravity="center"
+            app:indicatorColor="@color/item_chat_me"
+            android:indeterminate="true"
+            />
+        </FrameLayout>
         <TextView
             android:id="@+id/back"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/buttonRegistration"
-            android:layout_marginStart="50dp"
-            android:layout_marginEnd="50dp"
+            android:layout_below="@id/edRegisterBtnContainer"
+            android:layout_centerHorizontal="true"
             android:text="Quay lại trang đăng nhập"
             android:textAlignment="center"
             android:textColor="#3F51B5" />
