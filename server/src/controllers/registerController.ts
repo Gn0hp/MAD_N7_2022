@@ -4,18 +4,19 @@ export class RegisterController {
     async signup(req,res) {
         let user = new User({
             name: req?.body?.name,
+            username: req?.body?.username,
             email: req?.body?.email,
             password: req?.body?.password,
             profileURL: req?.body?.profile_url,
         })
         
-        console.log('saving')
+        
         let [savingRes, savingErr] = await User.registerUser(user)
         if(!savingRes) {
-            res.status(400).send(`Save user failed: ${savingErr} `)
+            res.status(200).send({"response": savingRes, "error": savingErr})
             return
         }
-        res.status(200).send('Save user successfully')
+        res.status(200).send({"response": savingRes, "error": null})
     }
     async login(req,res){
         let user = new User({

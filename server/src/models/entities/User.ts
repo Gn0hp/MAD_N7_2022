@@ -28,10 +28,10 @@ schema.statics.checkLogin = async function checkLogin(u) {
     return [false, new Error('Wrong password or invalid user'), null]
 }
 schema.statics.registerUser = async function registerUser(u) {
-    let existEmail = await mongoose.model('User').findOne({
-        email: u.email
+    let existUser = await mongoose.model('User').findOne({
+        username: u.username
     })
-    if(existEmail){
+    if(existUser){
         return [false, new Error('Exist email')]
     }
     u.save((err) => {

@@ -6,3 +6,4 @@ export const router = Express.Router()
 
 const queryDbController = new QueryDbController() 
 
+router.post('/', queryDbController.messageListByUserID)
