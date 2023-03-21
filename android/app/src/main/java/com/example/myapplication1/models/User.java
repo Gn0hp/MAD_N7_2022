@@ -34,10 +34,11 @@ public class User extends IUser {
         this.username = username;
         this.password= password;
     }
-    public User(String email, String username, String password){
+    public User(String email, String username, String password, String phoneNumber){
         this.email = email;
         this.username = username;
         this.password= password;
+        this.phoneNumber = phoneNumber;
     }
     public String getPhoneNumber() {
         return phoneNumber;
@@ -143,6 +144,8 @@ public class User extends IUser {
                 ", id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+
                 '}';
     }
 }

@@ -37,6 +37,7 @@ public class RegisterActivity extends AppCompatActivity {
         TextInputLayout tilUsername = findViewById(R.id.edUsername);
         TextInputLayout tilPassword = findViewById(R.id.edPassword);
         TextInputLayout tilConfirmPassword = findViewById(R.id.edRepeatPassword);
+        TextInputLayout tilPhone = findViewById(R.id.edPhone);
         CircularProgressIndicator circularProgressIndicator = findViewById(R.id.circleLoadingProgress);
 
         registerBtn.setOnClickListener(new View.OnClickListener() {
@@ -50,19 +51,20 @@ public class RegisterActivity extends AppCompatActivity {
                 String username = tilUsername.getEditText().getText().toString();
                 String password = tilPassword.getEditText().getText().toString();
                 String confirmPassword = tilConfirmPassword.getEditText().getText().toString();
+                String phoneNumber =  tilPhone.getEditText().getText().toString();
                 if(!password.equals(confirmPassword)){
                     registerBtn.setVisibility(View.GONE);
                     circularProgressIndicator.setVisibility(View.VISIBLE);
                     Toast.makeText(RegisterActivity.this, "Confirm password not match", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if(username.equals("") || password.equals("") || email.equals("")){
+                if(username.equals("") || password.equals("") || email.equals("") || phoneNumber.equals("")){
                     registerBtn.setVisibility(View.GONE);
                     circularProgressIndicator.setVisibility(View.VISIBLE);
                     Toast.makeText(RegisterActivity.this, "Please fill in all field of this form", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                User u = new User(email, username, password);
+                User u = new User(email, username, password, phoneNumber);
                 boolean savingRes = u.registerNewUser(u.toJson().toString());
                 if(savingRes){
                     Handler handler = new Handler();

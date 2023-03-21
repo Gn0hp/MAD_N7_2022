@@ -8,7 +8,8 @@ export class RegisterController {
             username: req?.body?.username,
             email: req?.body?.email,
             password: req?.body?.password,
-            profileURL: req?.body?.profile_url ? req?.body?.profile_url : "https://www.google.com/imgres?imgurl=https%3A%2F%2Fhaycafe.vn%2Fwp-content%2Fuploads%2F2022%2F02%2FAvatar-trang.jpg&imgrefurl=https%3A%2F%2Fhaycafe.vn%2Favatar-trang%2F&tbnid=EhaeWFmPvp1qXM&vet=12ahUKEwiknYfJjNn9AhVEB94KHfe1CisQMyhMegQIARB5..i&docid=eO6ytUmyu7A5WM&w=1000&h=631&q=avatar&ved=2ahUKEwiknYfJjNn9AhVEB94KHfe1CisQMyhMegQIARB5",
+            profileURL: req?.body?.profile_url ? req?.body?.profile_url : "https://haycafe.vn/wp-content/uploads/2022/02/Avatar-trang.jpg",
+            phoneNumber: req?.body?.phone_number
         })
         console.log(user)
         
