@@ -1,8 +1,9 @@
 import { Schema } from "mongoose";
+import { ChatCompletionModel, IChatCompletion, IChatCompletionMethods } from "./interfaces/IChatCompletion";
 
 const mongoose = require('mongoose');
 
-const schema = new mongoose.Schema({
+const schema = new Schema<IChatCompletion, ChatCompletionModel, IChatCompletionMethods>({
     api_object_id: {
         type: String,
         index: true,
@@ -22,8 +23,9 @@ const schema = new mongoose.Schema({
     timestamps: true
 })
 
-schema.methods.findByUserId = async function findByUserId(id) {
-    return await mongoose.model('ChatCompletion').find({user_id: id})
+schema.statics.findByUserId = async function findByUserId(id) {
+    let userID = new mongoose.Types.ObjectId(id)
+    return await mongoose.model('ChatCompletion').find({user_id: userID}).populate('user_id')
 }
 
 export const ChatCompletion = mongoose.model('ChatCompletion', schema);
