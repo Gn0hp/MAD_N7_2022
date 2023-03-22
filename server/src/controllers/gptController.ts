@@ -29,6 +29,19 @@ export class GPTController {
         let bodyParser = req.body
         let prompt = bodyParser?.prompt
         let chatId = bodyParser?.chat_id
-        
+        let userId = bodyParser?.user_id
+        let messageList = await Message.findByUserId(userId)
+        let contentObjectJson = []
+        if(messageList){
+            messageList.forEach((message) => [
+                contentObjectJson = [
+                    ...contentObjectJson,
+                    {
+                        role: message.role,
+                        content: message.content
+                    }
+                ]
+            ])
+        }
     }
 }
