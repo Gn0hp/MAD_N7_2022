@@ -11,4 +11,8 @@ export class QueryDbController {
         
         res.status(200).send(messageList)
     }
+    async chatCompletionListByUserID(req,res) {
+        let chatCompletionList = await ChatCompletion.findByUserId(req?.body?.user_id)
+        res.status(200).send(chatCompletionList)
+    }
 }

@@ -25,7 +25,7 @@ const schema = new Schema<IChatCompletion, ChatCompletionModel, IChatCompletionM
 
 schema.statics.findByUserId = async function findByUserId(id) {
     let userID = new mongoose.Types.ObjectId(id)
-    return await mongoose.model('ChatCompletion').find({user_id: userID}).populate('user_id')
+    return await mongoose.model('ChatCompletion').find({user_id: new mongoose.Types.ObjectId(userID)})
 }
 
 export const ChatCompletion = mongoose.model('ChatCompletion', schema);
