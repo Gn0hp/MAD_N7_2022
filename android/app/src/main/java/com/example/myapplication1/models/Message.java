@@ -3,7 +3,7 @@ package com.example.myapplication1.models;
 import com.example.myapplication1.models.bases.BaseMessage;
 
 public class Message extends BaseMessage {
-    private long createdAt;
+
 
     public Message() {
         super();
@@ -12,11 +12,25 @@ public class Message extends BaseMessage {
         super(message, sender, receiver);
     }
 
-    public long getCreatedAt() {
-        return createdAt;
+     public JSONObject toJson(){
+        Map<String, String> res= new HashMap<>();
+        res.put("id", this.id);
+        res.put("message", this.name);
+        res.put("sender", this.email);
+        res.put("receiver", this.phoneNumber);
+        res.put("createdAt", this.createdAt);
+        res.put("updatedAt", this.updatedAt);
+        return new JSONObject(res);
     }
-
-    public void setCreatedAt(long createdAt) {
-        this.createdAt = createdAt;
+    @Override
+    public String toString() {
+        return "Message{" +
+                "message='" + message + '\'' +
+                ", sender='" + sender + '\'' +
+                ", receiver='" + receiver + '\'' +
+                ", id='" + id + '\'' +
+                ", createdAt='" + createdAt + '\'' +
+                ", updatedAt='" + updatedAt + '\'' +
+                '}';
     }
 }

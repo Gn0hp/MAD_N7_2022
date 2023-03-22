@@ -69,7 +69,7 @@ public class LoginActivity extends AppCompatActivity {
                 if(user != null){
                     try{
                         FileOutputStream out = getApplicationContext().openFileOutput("user_session_info", Context.MODE_PRIVATE);
-                        out.write(user.toString().getBytes());
+                        out.write(user.getId().getBytes());
                         out.close();
                         Handler handler = new Handler();
                         handler.postDelayed(new Runnable() {
