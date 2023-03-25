@@ -1,6 +1,7 @@
 package com.example.myapplication1.adapters;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -10,13 +11,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication1.R;
+import com.example.myapplication1.models.Message;
 import com.example.myapplication1.models.bases.BaseMessage;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
 public class MessageListAdapter extends RecyclerView.Adapter {
+    private static final int VIEW_TYPE_MESSAGE_SENT = 1;
+    private static final int VIEW_TYPE_MESSAGE_RECEIVED = 2;
     private Context context;
     private List<BaseMessage> messageList;
 
@@ -28,20 +30,45 @@ public class MessageListAdapter extends RecyclerView.Adapter {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+        System.out.println("creating ./////.....");
+        View view;
+        if(viewType == VIEW_TYPE_MESSAGE_SENT){
+            view= LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chat_me, parent, false);
+            return new SentMessageHolder(view);
+        }
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chat_other, parent, false);
+            return new ReceivedMessageHolder(view);
+
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-
+        System.out.println("bingding ./////.....");
+        Message message = (Message) messageList.get(position);
+        switch (holder.getItemViewType()) {
+            case VIEW_TYPE_MESSAGE_SENT:
+                ((SentMessageHolder) holder).bind(message);
+                break;
+            case VIEW_TYPE_MESSAGE_RECEIVED:
+                ((ReceivedMessageHolder) holder).bind(message);
+                break;
+        }
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return messageList.size();
+    }
+    @Override
+    public int getItemViewType(int position){
+        Message message = (Message) messageList.get(position);
+        if(message.getType() == 0){
+            return VIEW_TYPE_MESSAGE_SENT;
+        }
+        return VIEW_TYPE_MESSAGE_RECEIVED;
     }
 
-    private class ReceivedMessageHolder extends RecyclerView.ViewHolder{
+    private static class ReceivedMessageHolder extends RecyclerView.ViewHolder{
         TextView messageText;
         TextView timeText;
         TextView nameText;
@@ -53,9 +80,12 @@ public class MessageListAdapter extends RecyclerView.Adapter {
             nameText = itemView.findViewById(R.id.text_gchat_user_other);
             profileImage = itemView.findViewById(R.id.image_gchat_profile_other);
         }
-        void bind(){}
+        void bind(Message message){
+            messageText.setText(message.getMessage());
+
+        }
     }
-    private class SentMessageHolder extends RecyclerView.ViewHolder{
+    private static class SentMessageHolder extends RecyclerView.ViewHolder{
         TextView messageText;
         TextView timeText;
         SentMessageHolder(@NonNull View itemView) {
@@ -64,6 +94,8 @@ public class MessageListAdapter extends RecyclerView.Adapter {
             timeText = itemView.findViewById(R.id.text_gchat_timestamp_me);
 
         }
-        void bind(){}
+        void bind(Message message){
+            messageText.setText(message.getMessage());
+        }
     }
 }

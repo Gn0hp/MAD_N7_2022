@@ -31,17 +31,18 @@ export class GPTController {
         let chatId = bodyParser?.chat_id
         let userId = bodyParser?.user_id
         let messageList = await Message.findByUserId(userId)
-        let contentObjectJson = []
+        let contentObjectJson: {}[]
         if(messageList){
-            messageList.forEach((message) => [
+            messageList.forEach((message) => {
+                let currMess = {
+                    role: message.role,
+                    content: message.content
+                }
                 contentObjectJson = [
                     ...contentObjectJson,
-                    {
-                        role: message.role,
-                        content: message.content
-                    }
+                    currMess
                 ]
-            ])
+            })
         }
     }
 }

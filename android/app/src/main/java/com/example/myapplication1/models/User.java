@@ -40,6 +40,9 @@ public class User extends IUser {
         this.password= password;
         this.phoneNumber = phoneNumber;
     }
+    public User(String id){
+        super(id);
+    }
     public String getPhoneNumber() {
         return phoneNumber;
     }

@@ -10,6 +10,9 @@ public abstract class IUser {
         this.name = name;
         this.email = email;
     }
+    public IUser(String id){
+        this.id = id;
+    }
     public IUser(){}
 
     public String getId() {

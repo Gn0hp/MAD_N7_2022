@@ -22,7 +22,11 @@ public abstract class BaseMessage {
         this.sender = sender;
         this.receiver = receiver;
     }
-    
+    public BaseMessage(String message, Long createdAt, User u){
+        this.message = message;
+        this.createdAt = createdAt;
+        this.sender = u;
+    }
     public void setId(String id) {
         this.id = id;
     }

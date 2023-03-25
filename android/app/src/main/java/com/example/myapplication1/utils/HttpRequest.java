@@ -1,5 +1,7 @@
 package com.example.myapplication1.utils;
 
+import androidx.annotation.NonNull;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -7,6 +9,8 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -76,5 +80,27 @@ public class HttpRequest {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
+    }
+    public JSONArray arrResPost(String jsons, String endpoints) throws IOException {
+        MediaType JSON = MediaType.get("application/json; charset=utf-8");
+
+        RequestBody body = RequestBody.create(jsons, JSON);
+
+        Request req = new Request.Builder()
+                .url(url.concat(endpoints))
+                .post(body)
+                .build();
+        final JSONArray[] jsonArray = {null};
+        Response res = client.newCall(req).execute();
+        if (res.isSuccessful() && res.code() == 200 && res.body() != null) {
+            try {
+                String json = res.body().string();
+                jsonArray[0] = new JSONArray(json);
+                System.out.println("Response length: "+ jsonArray[0].length());
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return jsonArray[0];
     }
 }
