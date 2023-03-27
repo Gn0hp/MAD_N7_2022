@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -26,7 +27,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CountDownLatch;
@@ -35,6 +38,7 @@ public class ChatActivity extends AppCompatActivity {
     RecyclerView messageRecyclerView;
     MessageListAdapter messageListAdapter;
     String userID = "";
+    String chatCompletionId = "";
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId()==android.R.id.home){
@@ -46,7 +50,10 @@ public class ChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_chat);
+
             ImageButton sendMessageBtn = findViewById(R.id.button_gchat_send);
+            EditText edtChatMessage = findViewById(R.id.edit_gchat_message);
+
             Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             FileInputStream fis = null;
@@ -79,7 +86,6 @@ public class ChatActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         try{
-
                             String jsonString = "{\"user_id\":\""+userID+"\"}";
                             System.out.println(jsonString);
                             messStrings[0] = httpRequest.arrResPost(jsonString, "/querydb/messageByUser");
@@ -110,7 +116,7 @@ public class ChatActivity extends AppCompatActivity {
                     }
                 });
                 thread.start();
-                messageRecyclerView= (RecyclerView)findViewById(R.id.recycler_gchat);
+                messageRecyclerView= findViewById(R.id.recycler_gchat);
                 try {
                     countDownLatch.await();
                 } catch (InterruptedException e) {
@@ -122,26 +128,50 @@ public class ChatActivity extends AppCompatActivity {
                 messageRecyclerView.setAdapter(messageListAdapter);
 
                 sendMessageBtn.setOnClickListener(new View.OnClickListener() {
-
                     @Override
                     public void onClick(View v) {
-                        final String[] resTest = {""};
-                        runOnUiThread(new Runnable() {
+                        String meMessage =edtChatMessage.getText().toString();
+                        Message newMeMessage = new Message(meMessage, System.currentTimeMillis(),new User(userID), 0 );
+                        arrMessages.add(newMeMessage);
+
+                        edtChatMessage.setText("");
+                        edtChatMessage.clearFocus();
+                        messageRecyclerView.scrollToPosition(arrMessages.size()-1);
+                        CountDownLatch countDownLatch = new CountDownLatch(2);
+                        final JSONArray[] resTest = {null};
+                        Thread thread = new Thread(new Runnable() {
                             @Override
                             public void run() {
                                 try{
-                                    resTest[0] = httpRequest.get("");
+                                    if(arrMessages.size() == 1){
+                                        String jsonString = "{\"user_id\":\""+userID+"\"}";
+                                        resTest[0] = httpRequest.arrResPost(jsonString, "chat");
+                                        countDownLatch.countDown();
+                                        JSONObject messageJSON = resTest[0].getJSONObject(0);
+                                        JSONObject chatCompletionJSON = resTest[0].getJSONObject(1);
+
+                                        chatCompletionId = chatCompletionJSON.getString("chat_completion");
+                                        Message messageResponse = new Message(messageJSON.getString("content"),System.currentTimeMillis(),new User("assistant"), 1 );
+                                        arrMessages.add(messageResponse);
+                                    }
+                                    else {
+                                        String jsonString = "{\"user_id\":\""+userID+"\"}";
+                                        resTest[0] = httpRequest.arrResPost(jsonString, "continueChat");
+                                        countDownLatch.countDown();
+
+                                    }
 
                                 } catch (Exception e){
                                     e.printStackTrace();
                                 }
                             }
                         });
-
+                        thread.start();
                         try {
+                            countDownLatch.await();
                             Thread.sleep(500);
                             System.out.println(resTest[0]);
-                            Toast.makeText(ChatActivity.this, resTest[0], Toast.LENGTH_SHORT).show();
+                            messageRecyclerView.setAdapter(messageListAdapter);
                         } catch (InterruptedException e) {
                             throw new RuntimeException(e);
                         }

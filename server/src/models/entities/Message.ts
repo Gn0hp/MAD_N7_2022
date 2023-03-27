@@ -12,11 +12,22 @@ const schema = new mongoose.Schema({
 
 schema.statics.findByChatCompletionId = async function findByChatCompletionId(id) {
     console.log(id)
-    return await mongoose.model('Message').find({chat_completion_id: id}).sort({createdAt: 1})
+    let res = await mongoose.model('Message').find({chat_completion_id: id}).sort({createdAt: 1})
+    if(!res.length) {
+        return null;
+    }
+    return res;
 }
 schema.statics.findByUserId = async function findByUserId(userID){
     let chatcompletionId = await mongoose.model('ChatCompletion').find({user_id: new mongoose.Types.ObjectId(userID)})
-    return await mongoose.model('Message').find({chat_completion_id: chatcompletionId[0].id}).sort({createdAt: 1})
+    if(!chatcompletionId.length){
+        
+    }
+    let res =  await mongoose.model('Message').find({chat_completion_id: chatcompletionId[0].id}).sort({createdAt: 1}) 
+    if(!res.length) {
+        return null;
+    }
+    return res;
 }
 
 export const Message = mongoose.model('Message', schema);

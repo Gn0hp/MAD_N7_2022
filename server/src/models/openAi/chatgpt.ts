@@ -57,7 +57,7 @@ export default class ChatGPTService implements GPTInterface{
                 prompt_tokens: completions?.data?.usage?.prompt_tokens,
                 completion_tokens: completions?.data?.usage?.completion_tokens,
                 total_tokens: completions?.data?.usage?.total_tokens,
-                user_id: userID,
+                user_id: new mongoose.Types.ObjectId(userID),
             })
             chatCompletion.save((err) => {
                 if(err){
@@ -81,7 +81,7 @@ export default class ChatGPTService implements GPTInterface{
                     return
                 }
             })
-            return [message, chatCompletion._id]
+            return [message, {"chat_completion": chatCompletion._id}]
         }
         return [null, null]
     }
@@ -118,7 +118,7 @@ export default class ChatGPTService implements GPTInterface{
                 prompt_tokens: completions?.data?.usage?.prompt_tokens,
                 completion_tokens: completions?.data?.usage?.completion_tokens,
                 total_tokens: completions?.data?.usage?.total_tokens,
-                user_id: userID,
+                user_id: new mongoose.Types.ObjectId(userID),
             })
 
             let messReq = new Message({
@@ -137,7 +137,7 @@ export default class ChatGPTService implements GPTInterface{
                     return
                 }
             })
-            return [message, chatCompletion._id]
+            return [message, {"chat_completion": chatCompletion._id}]
         }
         return [null, null]
     }
