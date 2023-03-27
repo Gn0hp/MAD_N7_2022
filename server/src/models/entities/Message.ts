@@ -20,9 +20,6 @@ schema.statics.findByChatCompletionId = async function findByChatCompletionId(id
 }
 schema.statics.findByUserId = async function findByUserId(userID){
     let chatcompletionId = await mongoose.model('ChatCompletion').find({user_id: new mongoose.Types.ObjectId(userID)})
-    if(!chatcompletionId.length){
-        
-    }
     let res =  await mongoose.model('Message').find({chat_completion_id: chatcompletionId[0].id}).sort({createdAt: 1}) 
     if(!res.length) {
         return null;

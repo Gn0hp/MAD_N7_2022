@@ -31,8 +31,15 @@
         android:layout_marginBottom="16dp"
         app:layout_constrainedHeight="true"
         app:layout_constraintBottom_toTopOf="@+id/text_gchat_indicator"
-        app:layout_constraintTop_toBottomOf="@+id/layout_group_chat"/>
-
+        app:layout_constraintTop_toBottomOf="@+id/layout_group_chat"
+        android:scrollbars="vertical"/>
+    <TextView
+        android:id="@+id/empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:visibility="gone"
+        android:text="No message available" />
     <TextView
         android:id="@+id/text_gchat_indicator"
         android:layout_width="wrap_content"

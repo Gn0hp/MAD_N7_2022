@@ -8,9 +8,9 @@ export class QueryDbController {
     }
     async messageListByUserID(req,res) {
         let userId = req?.body?.user_id
-        console.log(userId)
         let messageList = await Message.findByUserId(userId)
-        console.log(messageList)
+        console.log(req.body)
+        if(!messageList) messageList = []
         res.status(200).send(messageList)
     }
     async chatCompletionListByUserID(req,res) {

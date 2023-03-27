@@ -59,15 +59,10 @@ export default class ChatGPTService implements GPTInterface{
                 total_tokens: completions?.data?.usage?.total_tokens,
                 user_id: new mongoose.Types.ObjectId(userID),
             })
-            chatCompletion.save((err) => {
-                if(err){
-                    console.log(err)
-                    return
-                }
-            })
+            await ChatCompletion.updateByUserId(userID, chatCompletion)
             let messReq = new Message({
                 role: 'user',
-                content: fullPrompt,
+                content: prompt,
                 chat_completion_id: chatCompletion._id,
             })
             let messRes = new Message({

@@ -7,7 +7,6 @@ const schema = new Schema<IChatCompletion, ChatCompletionModel, IChatCompletionM
     api_object_id: {
         type: String,
         index: true,
-        unique: true,
     } ,
     model: String,
     temperature: Number,
@@ -26,6 +25,10 @@ const schema = new Schema<IChatCompletion, ChatCompletionModel, IChatCompletionM
 schema.statics.findByUserId = async function findByUserId(id) {
     let userID = new mongoose.Types.ObjectId(id)
     return await mongoose.model('ChatCompletion').find({user_id: new mongoose.Types.ObjectId(userID)})
+}
+schema.statics.updateByUserId = async function updateByUserId(id, data) {
+    let userID = new mongoose.Types.ObjectId(id)
+    return await mongoose.model('ChatCompletion').updateOne({user_id: new mongoose.Types.ObjectId(userID)}, data)
 }
 
 export const ChatCompletion = mongoose.model('ChatCompletion', schema);

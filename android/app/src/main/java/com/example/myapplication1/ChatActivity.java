@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.myapplication1.adapters.MessageListAdapter;
@@ -80,7 +81,7 @@ public class ChatActivity extends AppCompatActivity {
             System.out.println(userID);
             List<BaseMessage> arrMessages = new ArrayList<BaseMessage>();
             if(!userID.equals("")){
-                CountDownLatch countDownLatch = new CountDownLatch(2);
+                CountDownLatch countDownLatch = new CountDownLatch(1);
                 final JSONArray[] messStrings = {null};
                 Thread thread = new Thread(new Runnable() {
                     @Override
@@ -89,27 +90,28 @@ public class ChatActivity extends AppCompatActivity {
                             String jsonString = "{\"user_id\":\""+userID+"\"}";
                             System.out.println(jsonString);
                             messStrings[0] = httpRequest.arrResPost(jsonString, "/querydb/messageByUser");
-                            System.out.println(messStrings[0]);
-                            for(int i =0 ; i < messStrings[0].length(); ++i){
-                                JSONObject obj = messStrings[0].getJSONObject(i);
-                                String role = obj.getString("role");
 
-                                int type;
-                                User u;
-                                if(role.equals("user")){
-                                    type = 0;
-                                    u = new User(userID);
-                                }
-                                else {
-                                    type =1;
-                                    u = new User("assistant");
-                                }
+                            if(messStrings[0].length()>0){
+                                for(int i =0 ; i < messStrings[0].length(); ++i){
+                                    JSONObject obj = messStrings[0].getJSONObject(i);
+                                    String role = obj.getString("role");
 
-                                Message mess = new Message(obj.getString("content"), Converter.convertDateTimestamp(obj.getString("createdAt")), u, type);
-                                arrMessages.add(mess);
-                                countDownLatch.countDown();
+                                    int type;
+                                    User u;
+                                    if(role.equals("user")){
+                                        type = 0;
+                                        u = new User(userID);
+                                    }
+                                    else {
+                                        type =1;
+                                        u = new User("assistant");
+                                    }
+
+                                    Message mess = new Message(obj.getString("content"), Converter.convertDateTimestamp(obj.getString("createdAt")), u, type);
+                                    arrMessages.add(mess);
+                                }
                             }
-
+                            countDownLatch.countDown();
                         } catch (Exception e){
                             e.printStackTrace();
                         }
@@ -117,15 +119,28 @@ public class ChatActivity extends AppCompatActivity {
                 });
                 thread.start();
                 messageRecyclerView= findViewById(R.id.recycler_gchat);
+                TextView emptyView = findViewById(R.id.empty_view);
                 try {
                     countDownLatch.await();
-                } catch (InterruptedException e) {
+                    System.out.println("arrMessages:  ------------------" +arrMessages);
+                    if(arrMessages.isEmpty()){
+                        System.out.println("-------------here");
+                        emptyView.setVisibility(View.VISIBLE);
+                        messageRecyclerView.setVisibility(View.GONE);
+                    }
+                    else {
+                        System.out.println("-------------or here");
+                        messageListAdapter = new MessageListAdapter(this, arrMessages);
+                        messageRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+                        messageRecyclerView.setAdapter(messageListAdapter);
+                    }
+                    countDownLatch.countDown();
+                } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
                 //get message
-                messageListAdapter = new MessageListAdapter(this, arrMessages);
-                messageRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-                messageRecyclerView.setAdapter(messageListAdapter);
+
+
 
                 sendMessageBtn.setOnClickListener(new View.OnClickListener() {
                     @Override

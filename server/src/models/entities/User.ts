@@ -37,10 +37,10 @@ schema.statics.registerUser = async function registerUser(u) {
     u.save((err) => {
         if(err){
             console.log(err)
-            return [false,err]
+            return [false,err,null]
         }
     })
-    return [true, null]
+    return [true, null, u._id]
 }
 
         

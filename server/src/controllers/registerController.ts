@@ -1,3 +1,5 @@
+import { ChatCompletion } from "../models/entities/ChatCompletion";
+import mongoose from "mongoose";
 import { User } from "../models/entities/User";
 
 export class RegisterController {
@@ -13,12 +15,20 @@ export class RegisterController {
         })
         console.log(user)
         
-        let [savingRes, savingErr] = await User.registerUser(user)
+        let [savingRes, savingErr, userID] = await User.registerUser(user)
         if(!savingRes) {
             res.status(200).send({"response": savingRes, "error": savingErr})
             return
         }
-        
+        let chatCompletion = new ChatCompletion({
+            user_id: new mongoose.Types.ObjectId(userID),
+        })
+        chatCompletion.save((err) => {
+            if(err){
+                console.log(err)
+                return
+            }
+        })
         res.status(200).send({"response": savingRes, "error": null})
     }
     async login(req,res){

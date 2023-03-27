@@ -105,7 +105,7 @@ public class User extends IUser {
     public boolean registerNewUser(String json){
         HttpRequest httpRequest = new HttpRequest("http://10.0.2.2:3124");
         final JSONObject[] jsonRes = new JSONObject[1];
-        Thread thread = new Thread(new Runnable() {
+        Thread thread = new Thread(new Runnable() { 
             @Override
             public void run() {
                 jsonRes[0] = httpRequest.post(json,"/register/signup");
