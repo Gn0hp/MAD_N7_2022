@@ -22,7 +22,11 @@ public class HttpRequest {
     private String url;
 
     public HttpRequest(String url) {
-        client = new OkHttpClient();
+        client = new OkHttpClient.Builder()
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .build();
         this.url = url;
     }
 
@@ -50,7 +54,7 @@ public class HttpRequest {
 
     }
 
-    public JSONObject post(String jsons, String endpoints) {
+    public void post(String jsons, String endpoints, OnResponseListener listener) {
         MediaType JSON = MediaType.get("application/json; charset=utf-8");
 
         RequestBody body = RequestBody.create(jsons, JSON);
@@ -60,28 +64,47 @@ public class HttpRequest {
                 .post(body)
                 .build();
         try {
-            Response res = client.newCall(req).execute();
-            if (res.code() == 200 && res.body() != null) {
-                String resBody = res.body().string();
-                if (!resBody.trim().isEmpty()) {
-                    JSONObject jsonObject;
-                    try {
-                        jsonObject = new JSONObject(resBody);
-                    } catch (JSONException e) {
-                        jsonObject = null;
-                    }
-                    return jsonObject;
-                }
-                return null;
-            }
+            client.newCall(req).enqueue(new Callback() {
+                @Override
+                public void onFailure(@NonNull Call call, @NonNull IOException e) {
 
-            return null;
-        } catch (IOException e) {
+                }
+
+                @Override
+                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                    assert response.body() != null;
+                    String resBody = response.body().string();
+                    if (!resBody.trim().isEmpty()) {
+                        JSONObject jsonObject;
+                        try {
+                            jsonObject = new JSONObject(resBody);
+                        } catch (JSONException e) {
+                            jsonObject = null;
+                        }
+                        listener.onResponse(jsonObject);
+                    }
+                }
+            });
+        } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
-    public JSONArray arrResPost(String jsons, String endpoints) throws IOException {
+//            if (res.code() == 200 && res.body() != null) {
+//                String resBody = res.body().string();
+//                if (!resBody.trim().isEmpty()) {
+//                    JSONObject jsonObject;
+//                    try {
+//                        jsonObject = new JSONObject(resBody);
+//                    } catch (JSONException e) {
+//                        jsonObject = null;
+//                    }
+//                    return jsonObject;
+//                }
+//                return null;
+//            }
+
+    public void arrResPost(String jsons, String endpoints, OnResponseListener listener) throws IOException {
         MediaType JSON = MediaType.get("application/json; charset=utf-8");
 
         RequestBody body = RequestBody.create(jsons, JSON);
@@ -91,16 +114,25 @@ public class HttpRequest {
                 .post(body)
                 .build();
         final JSONArray[] jsonArray = {null};
-        Response res = client.newCall(req).execute();
-        if (res.isSuccessful() && res.code() == 200 && res.body() != null) {
-            try {
-                String json = res.body().string();
-                jsonArray[0] = new JSONArray(json);
-                System.out.println("Response length: "+ jsonArray[0].length());
-            } catch (JSONException e) {
-                throw new RuntimeException(e);
+        client.newCall(req).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+
             }
-        }
-        return jsonArray[0];
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                try {
+                    assert response.body() != null;
+                    String json = response.body().string();
+                    jsonArray[0] = new JSONArray(json);
+                    System.out.println("Response length: "+ jsonArray[0].length());
+                    listener.onResponseArray(jsonArray[0]);
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+
     }
 }

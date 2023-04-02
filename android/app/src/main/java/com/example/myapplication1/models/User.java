@@ -4,7 +4,9 @@ import android.content.Context;
 
 import com.example.myapplication1.models.bases.IUser;
 import com.example.myapplication1.utils.HttpRequest;
+import com.example.myapplication1.utils.OnResponseListener;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -67,54 +69,62 @@ public class User extends IUser {
         this.profileUrl = profileUrl;
     }
 
-    public User authenLogin(String json){
+    public Map<User,String> authenLogin(String json){
         HttpRequest httpRequest = new HttpRequest("http://10.0.2.2:3124");
         final JSONObject[] jsonRes = new JSONObject[1];
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                 jsonRes[0] = httpRequest.post(json,"/register/login");
 
-            }
-        });
-        thread.start();
+                 httpRequest.post(json, "/register/login", new OnResponseListener() {
+                     @Override
+                     public void onResponse(JSONObject response) {
+                         jsonRes[0] = response;
+
+                     }
+
+                     @Override
+                     public void onResponseArray(JSONArray response) {
+
+                     }
+                 });
         try {
-            Thread.sleep(500);
-            if(jsonRes[0] == null){
-                return null;
+            Thread.sleep(2000);
+            if(jsonRes[0] != null){
+                User u = new User(
+                        (String) jsonRes[0].get("_id"),
+                        (String) jsonRes[0].get("name"),
+                        (String) jsonRes[0].get("email"),
+                        (String) jsonRes[0].get("phoneNumber"),
+                        (String) jsonRes[0].get("username"),
+                        (String) jsonRes[0].get("profileURL"),
+                        (String) jsonRes[0].get("username"),
+                        (String) jsonRes[0].get("password")
+
+                );
+                String chatCompletionId = (String) jsonRes[0].get("chat_completion_id");
+                Map<User, String> map  = new HashMap<>();
+                map.put(u,chatCompletionId);
+                return map;
             }
-
-            User u = new User(
-                    (String) jsonRes[0].get("_id"),
-                    (String) jsonRes[0].get("name"),
-                    (String) jsonRes[0].get("email"),
-                    (String) jsonRes[0].get("phoneNumber"),
-                    (String) jsonRes[0].get("username"),
-                    (String) jsonRes[0].get("profileURL"),
-                    (String) jsonRes[0].get("username"),
-                    (String) jsonRes[0].get("password")
-
-            );
-            return u;
-
+            return null;
         } catch (InterruptedException | JSONException e) {
             throw new RuntimeException(e);
         }
-
     }
     public boolean registerNewUser(String json){
         HttpRequest httpRequest = new HttpRequest("http://10.0.2.2:3124");
         final JSONObject[] jsonRes = new JSONObject[1];
-        Thread thread = new Thread(new Runnable() { 
-            @Override
-            public void run() {
-                jsonRes[0] = httpRequest.post(json,"/register/signup");
 
-            }
-        });
-        thread.start();
+                 httpRequest.post(json, "/register/signup", new OnResponseListener() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        jsonRes[0] = response;
+                    }
+
+                    @Override
+                    public void onResponseArray(JSONArray response) {
+
+                    }
+                });
         try {
-            Thread.sleep(500);
             if(jsonRes[0] == null){
                 return false;
             }
@@ -122,7 +132,7 @@ public class User extends IUser {
             return resResult.equals("true");
 
 
-        } catch (InterruptedException | JSONException e) {
+        } catch ( JSONException e) {
             throw new RuntimeException(e);
         }
     }

@@ -20,7 +20,7 @@ export default class ChatGPTService implements GPTInterface{
             apiKey: apiKey,
         })
     }
-    generateCompletion = async (prompt: string, userID: string) => {
+    generateCompletion = async (prompt: string, userID: string, chatCompletionId) => {
         let fullPrompt = this._rolePlayIntroduction +`${prompt}`+'\n\n';
         let ChatGPT = new OpenAIApi(this._openAiConfig);
 
@@ -43,10 +43,10 @@ export default class ChatGPTService implements GPTInterface{
             frequency_penalty,
             presence_penalty,
         })
-        console.log("response: ", completions)
+        console.log("response: ", completions.data.choices)
         let message = completions?.data?.choices[0]?.message
         if(message) {
-            let chatCompletion = new ChatCompletion({
+            let chatCompletion = {
                 api_object_id: completions?.data?.id,
                 model: completions?.data?.model,
                 temperature,
@@ -57,18 +57,19 @@ export default class ChatGPTService implements GPTInterface{
                 prompt_tokens: completions?.data?.usage?.prompt_tokens,
                 completion_tokens: completions?.data?.usage?.completion_tokens,
                 total_tokens: completions?.data?.usage?.total_tokens,
-                user_id: new mongoose.Types.ObjectId(userID),
-            })
+                assistant_description: this._rolePlayIntroduction,
+            }
+            console.log(chatCompletion)
             await ChatCompletion.updateByUserId(userID, chatCompletion)
             let messReq = new Message({
                 role: 'user',
                 content: prompt,
-                chat_completion_id: chatCompletion._id,
+                chat_completion_id: new mongoose.Types.ObjectId(chatCompletionId),
             })
             let messRes = new Message({
                 role: message?.role,
                 content: message?.content,
-                chat_completion_id: chatCompletion._id,
+                chat_completion_id: new mongoose.Types.ObjectId(chatCompletionId),
             })
             Message.insertMany([messReq, messRes], (err) => {
                 if(err){
@@ -76,13 +77,19 @@ export default class ChatGPTService implements GPTInterface{
                     return
                 }
             })
-            return [message, {"chat_completion": chatCompletion._id}]
+            return [message, {"chat_completion": chatCompletionId}]
         }
         return [null, null]
     }
-    continueChatCompletion = async(chatId: string, userID: string, messages: any) => {
+    continueChatCompletion = async(chatId: string, userID: string, messages: any, lastContent: any) => {
         let ChatGPT = new OpenAIApi(this._openAiConfig);
-        let userMessage = messages[messages.length - 1]?.content
+        let userMessage = messages
+
+        let currentContent  = [...lastContent, {
+            role: 'user',
+            content: messages
+        }]
+        
         console.log('sending request to openai...')
         let temperature = 0.5
         let max_tokens = 2000
@@ -92,7 +99,7 @@ export default class ChatGPTService implements GPTInterface{
         const completions = await ChatGPT.createChatCompletion({
             model: CHATGPT_MODEL_STABLE,
             // prompt: fullPrompt,
-            messages: messages,
+            messages: currentContent,
             temperature,
             max_tokens,
             top_p,
@@ -102,20 +109,6 @@ export default class ChatGPTService implements GPTInterface{
         console.log("response: ", completions)
         let message = completions?.data?.choices[0]?.message
         if(message) {
-            let chatCompletion = new ChatCompletion({
-                api_object_id: completions?.data?.id,
-                model: completions?.data?.model,
-                temperature,
-                max_tokens,
-                top_p,
-                frequency_penalty,
-                presence_penalty,
-                prompt_tokens: completions?.data?.usage?.prompt_tokens,
-                completion_tokens: completions?.data?.usage?.completion_tokens,
-                total_tokens: completions?.data?.usage?.total_tokens,
-                user_id: new mongoose.Types.ObjectId(userID),
-            })
-
             let messReq = new Message({
                 role: 'user',
                 content: userMessage,
@@ -132,29 +125,8 @@ export default class ChatGPTService implements GPTInterface{
                     return
                 }
             })
-            return [message, {"chat_completion": chatCompletion._id}]
+            return [message, {"chat_completion": chatId}]
         }
         return [null, null]
-    }
-
-    generateChatCompletion = async (prompt) => {
-        let ChatGPT = new OpenAIApi(this._openAiConfig);
-
-        console.log('sending request to openai...')
-        const completions = await ChatGPT.createChatCompletion({
-            model: CHATGPT_MODEL_STABLE,
-            // prompt: fullPrompt,
-            messages: [{
-                role: 'user',
-                content: prompt
-            }],
-            temperature: 0.5,
-            max_tokens: 2000,
-            top_p: 1,
-            frequency_penalty: 0,
-            presence_penalty: 0,
-        })
-        return completions?.data?.choices[0]?.message
-        // ?.replace(/^\s+|\s+$/g, "");
     }
 }

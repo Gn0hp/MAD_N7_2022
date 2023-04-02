@@ -9,7 +9,7 @@ export class QueryDbController {
     async messageListByUserID(req,res) {
         let userId = req?.body?.user_id
         let messageList = await Message.findByUserId(userId)
-        console.log(req.body)
+        console.log(messageList)
         if(!messageList) messageList = []
         res.status(200).send(messageList)
     }

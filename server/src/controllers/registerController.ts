@@ -39,11 +39,20 @@ export class RegisterController {
             password: req?.body?.password,
             profileURL: req?.body?.profile_url,
         })
+
         let [loginRes, loginErr, userDB] = await User.checkLogin(user)
         if(!loginRes){
             res.status(200).send(null)     
             return
         }
-        res.status(200).send(userDB)
+        console.log(userDB)
+        let chatComletion = await ChatCompletion.findByUserId(userDB._id)
+        let chatCompletionID = chatComletion[0]?._id
+        let responseObj = {
+            ...userDB?._doc,
+            chat_completion_id: chatCompletionID
+        }
+        console.log("------",responseObj)
+        res.status(200).send(responseObj)
     }
 }

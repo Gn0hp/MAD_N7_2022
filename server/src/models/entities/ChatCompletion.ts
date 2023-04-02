@@ -23,12 +23,9 @@ const schema = new Schema<IChatCompletion, ChatCompletionModel, IChatCompletionM
 })
 
 schema.statics.findByUserId = async function findByUserId(id) {
-    let userID = new mongoose.Types.ObjectId(id)
-    return await mongoose.model('ChatCompletion').find({user_id: new mongoose.Types.ObjectId(userID)})
+    return await mongoose.model('ChatCompletion').find({user_id: new mongoose.Types.ObjectId(id)})
 }
 schema.statics.updateByUserId = async function updateByUserId(id, data) {
-    let userID = new mongoose.Types.ObjectId(id)
-    return await mongoose.model('ChatCompletion').updateOne({user_id: new mongoose.Types.ObjectId(userID)}, data)
+    return await mongoose.model('ChatCompletion').updateOne({user_id: new mongoose.Types.ObjectId(id)}, data)
 }
-
 export const ChatCompletion = mongoose.model('ChatCompletion', schema);

@@ -20,6 +20,7 @@ import com.google.android.material.progressindicator.CircularProgressIndicator;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.util.Map;
 import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
@@ -64,13 +65,18 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 User user = new User(username, password);
 
-                user = user.authenLogin(user.toJson().toString());
+                Map<User, String> map = user.authenLogin(user.toJson().toString());
+                user = (User) map.keySet().toArray()[0];
+                String chatCompletionId = map.get(user);
                 System.out.println(user);
                 if(user != null){
                     try{
                         FileOutputStream out = getApplicationContext().openFileOutput("user_session_info", Context.MODE_PRIVATE);
+                        FileOutputStream out1 = getApplicationContext().openFileOutput("chat_completion_session_info", Context.MODE_PRIVATE);
                         out.write(user.getId().getBytes());
+                        out1.write(chatCompletionId.getBytes());
                         out.close();
+                        out1.close();
                         Handler handler = new Handler();
                         handler.postDelayed(new Runnable() {
                             @Override
