@@ -1,0 +1,25 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+
+    <item
+        android:id="@+id/ic_search_nav"
+        android:icon="@drawable/search_icon"
+        android:title="Tìm kiếm"
+        android:contentDescription="..."
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/ic_notice_nav"
+        android:contentDescription="..."
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/bell_24"
+        android:title="Thông báo" />
+
+    <item
+        android:id="@+id/ic_more_nav"
+        android:contentDescription="adg"
+        app:showAsAction="never"
+        android:title="TODO"/>
+
+</menu>

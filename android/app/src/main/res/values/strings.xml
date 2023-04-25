@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">My Application1</string>
+    <string name="fixed_header">Fixed Header</string>
+    <string name="hint_enter_a_message">Input your message</string>
 </resources>

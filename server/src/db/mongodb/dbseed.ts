@@ -14,26 +14,31 @@ function GetDriverSource() {
 
     return `${connectionString}${user}:${password}@${host}?retryWrites=${retryWrite}&w=${w}`
 }
-(async function(){
-    let url = GetDriverSource();
-    try {
-        await mongoose.connect(
-        url,
-        {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
+export class DBService {
+    
+    async connect(){
+        let url = GetDriverSource();
+        try {
+            console.log('connect string: ',url)
+            mongoose.set('strictQuery',false)
+            await mongoose.connect(
+                url,
+                {
+                    useNewUrlParser: true,
+                    useUnifiedTopology: true,
+                }
+            ).then(() => console.log('Connect to mongodb successfully'))
+    
+            // let connection = mongoose.connection
+            // connection.once('open', async () => {
+            //     const colletion = connection.db.collection("OpenAI_ChatHistories")
+            //     await colletion.find({}).then((data: any) => {
+            //         console.log(data)
+            //     })
+            // })
         }
-    )
-        let connection = mongoose.connection
-        connection.once('open', async () => {
-            const colletion = connection.db.collection("OpenAI_ChatHistories")
-            await colletion.find({}).then((data: any) => {
-                console.log(data)
-            })
-        })
+        catch(err) {
+            console.log(err)
+        }
     }
-    catch(err) {
-        console.log(err)
-    }
-
-})()
+}

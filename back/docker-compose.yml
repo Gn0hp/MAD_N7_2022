@@ -1,0 +1,79 @@
+version: '3.5'
+
+services:
+  tftp:
+    image: mcchae/tftp-server
+    container_name: tftp_server_dlp
+    ports:
+      - "6601:69/udp"
+    restart: always
+
+  db:
+    container_name: postgres_container_dlp
+    image: postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-postgres}
+      PGDATA: /data/postgres
+    volumes:
+        - ./data/postgres:/data/postgres
+    ports:
+      - "6602:5432"
+    restart: unless-stopped
+    depends_on:
+      - tftp
+    networks:
+      - backapi
+  
+
+
+
+
+  # pgadmin:
+  #   container_name: pgadmin_container
+  #   image: dpage/pgadmin4
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+  #     PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+  #     PGADMIN_CONFIG_SERVER_MODE: 'False'
+  #   volumes:
+  #      - pgadmin:/root/.pgadmin
+
+  #   ports:
+  #     - "${PGADMIN_PORT:-5050}:80"
+  #   networks:
+  #     - postgres
+  #   restart: unless-stopped
+
+  # back:
+  #   container_name: back_container
+
+  back:
+    build:
+      context: ./
+      args:
+        DJANGO_ALLOWED_HOSTS: "*"
+        DJANGO_SECRET_KEY: "*"
+        DJANGO_CORS_ORIGIN_WHITELIST: "*"
+    command: bash -c "python3 manage.py makemigrations && python3 manage.py migrate --noinput && python3 manage.py loaddata user.json &&python3 manage.py runserver 0.0.0.0:9900 "
+
+    ports:
+      - "6603:9900"
+    volumes:
+      - .:/back
+    depends_on:
+      - tftp
+      - db
+    links:
+      - db:db
+    restart: unless-stopped
+    networks:
+      - backapi
+    
+networks:
+  backapi:
+    driver: bridge
+
+volumes:
+    postgres:

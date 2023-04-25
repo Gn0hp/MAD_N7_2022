@@ -4,118 +4,173 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8F2F2">
+    android:background="@drawable/bg_img">
 
-    <FrameLayout
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:background="#009688"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="0dp"></FrameLayout>
-
-    <ImageView
-        android:id="@+id/imageLogo"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="16dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent=".78"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logoapp"
-        tools:ignore="MissingConstraints" />
-
-    <RelativeLayout
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_marginTop="16dp"
-        android:background="#E2F1EF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageLogo"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        app:layout_constraintVertical_bias="1"
         tools:ignore="MissingConstraints">
 
-        <TextView
-            android:id="@+id/username"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Số điện thoại"
-            android:textColor="#009688"
-            android:textStyle="bold"
-            android:layout_marginTop="16dp"
-            android:layout_marginLeft="16dp"
-            />
-
-        <EditText
-            android:id="@+id/edPhoneNumber"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/edUsername"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_below="@id/username"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
             android:ems="10"
-            android:inputType="phone"
-            tools:text="@tools:sample/us_phones" />
+            app:boxBackgroundColor="@color/white"
+            app:startIconDrawable="@drawable/user_svgrepo_com"
+            app:startIconTint="@color/purple_700">
 
-        <TextView
-            android:id="@+id/password"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/edPhoneNumber"
-            android:layout_marginTop="16dp"
-            android:text="Mật khẩu"
-            android:textColor="#009688"
-            android:textStyle="bold"
-            android:layout_marginLeft="16dp"/>
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Username"
+                android:inputType="text"
+                android:textColor="#88C0FD"
+                android:textSize="10sp" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/edPassword"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_below="@id/password"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_below="@id/edUsername"
+            android:layout_marginTop="8dp"
             android:ems="10"
-            android:inputType="textPassword"
-            tools:text="@tools:sample/lorem/random" />
+            app:boxBackgroundColor="#FFFFFF"
+            app:endIconMode="password_toggle"
+            app:endIconTint="@color/purple_700"
+            app:startIconDrawable="@drawable/lock_48px"
+            app:startIconTint="@color/purple_700">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:textSize="10sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            tools:ignore="MissingConstraints">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Quên mật khẩu ?"
+                android:layout_weight="1"
+                android:textColor="@color/purple_700"/>
+
+            <TextView
+                android:id="@+id/txtSignup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Đăng ký tài khoản"
+                android:textColor="@color/purple_700"/>
+
+        </LinearLayout>
+
         <Button
             android:id="@+id/buttonLogin"
-            android:layout_width="wrap_content"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/forgotPassword"
-            android:layout_alignStart="@+id/edPassword"
-            android:layout_alignEnd="@+id/edPassword"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="50dp"
-            android:text="Đăng nhập" />
-        <TextView
-            android:id="@+id/forgotPassword"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/edPassword"
-            android:layout_alignStart="@+id/buttonLogin"
-            android:layout_alignEnd="@+id/buttonLogin"
-            android:layout_marginTop="8dp"
-            android:text="Quên mật khẩu"
-            android:textAlignment="center"
-            android:textColor="#3F51B5" />
+            android:layout_marginTop="16dp"
+            android:fontFamily="sans-serif"
+            android:text="Đăng nhập"
+            android:textColor="@color/purple_700"
+            app:strokeColor="@color/purple_700"
+            app:strokeWidth="1.5dp" />
 
-        <TextView
-            android:id="@+id/register"
+        <Button
+            android:id="@+id/btnFingerprint"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:iconSize="60dp"
+            app:icon="@drawable/fingerprint_48px"
+            tools:ignore="SpeakableTextPresentCheck" />
+        <FrameLayout
+            android:id="@+id/btnLoginLoadingContainer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/buttonLogin"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="50dp"
-            android:text="Tạo tài khoản"
-            android:textAlignment="center"
-            android:textColor="#3F51B5" />
+            android:layout_gravity="center"
+            ></FrameLayout>
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/circleLoadingProgress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_gravity="center"
+            app:indicatorColor="@color/item_chat_me"
+            android:indeterminate="true"
+            />
 
 
-    </RelativeLayout>
+        <TextView
+            android:text="Đăng nhập bằng"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@color/purple_700"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp">
+
+            <ImageButton
+                android:id="@+id/btnFingerprint2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="5"
+                android:layout_marginRight="6dp"
+                android:background="@drawable/fb_logo"
+                android:contentDescription="Login with Google"/>
+
+            <ImageButton
+                android:id="@+id/btnFingerprint1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="5"
+                android:background="@drawable/google_logo"
+                android:contentDescription="Login with Google"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"/>
+
+
+            <ImageButton
+                android:id="@+id/btnFingerprint3"
+                android:layout_marginLeft="6dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="5"
+                android:background="@drawable/twitter_logo"
+                android:contentDescription="Login with Google"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

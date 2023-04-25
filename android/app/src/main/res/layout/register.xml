@@ -4,121 +4,174 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8F2F2">
+    android:background="@drawable/bg_img">
 
-    <FrameLayout
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:background="#009688"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="0dp">
-
-    </FrameLayout>
-
-    <TextView
-        android:id="@+id/Registration"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:fontFamily="sans-serif-light"
-        android:text="ĐĂNG KÝ"
-        android:textSize="34sp"
-        android:textStyle="bold"
-        android:typeface="normal"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent=".78"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
-
-    <RelativeLayout
-        android:layout_width="300dp"
-        android:layout_height="320dp"
-        android:layout_marginTop="16dp"
-        android:background="#E2F1EF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Registration"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        app:layout_constraintVertical_bias="1"
         tools:ignore="MissingConstraints">
 
-        <EditText
-            android:id="@+id/edPhoneNumber"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/edEmail"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginRight="8dp"
+            app:boxBackgroundColor="@color/white"
             android:ems="10"
-            android:inputType="numberDecimal"
-            android:text="Số điện thoại"
-            android:textColor="#B6A8A8"
-            android:textSize="12sp" />
+            app:startIconDrawable="@drawable/baseline_email_24"
+            app:startIconTint="@color/purple_700"
+            >
 
-        <EditText
-            android:id="@+id/edTextName"
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:hint="Email"
+                android:textSize="10sp"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/edPhone"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_below="@id/edPhoneNumber"
-            android:layout_marginLeft="8dp"
+            app:startIconTint="@color/purple_700"
+            android:layout_below="@+id/edEmail"
+            app:boxBackgroundColor="@color/white"
             android:layout_marginTop="8dp"
-            android:layout_marginRight="8dp"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Tên người dùng"
-            android:textColor="#B6A8A8"
-            android:textSize="12sp" />
+            app:startIconDrawable="@drawable/baseline_phone_24"
+            >
 
-        <EditText
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:hint="Phone"
+                android:textSize="10sp"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/edUsername"
+            android:layout_below="@+id/edPhone"
+            app:startIconTint="@color/purple_700"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            app:boxBackgroundColor="@color/white"
+            android:ems="10"
+
+            app:startIconDrawable="@drawable/user_svgrepo_com"
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Username"
+                android:inputType="text"
+                android:textSize="10sp"
+
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/edPassword"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_below="@id/edTextName"
-            android:layout_marginLeft="8dp"
+            app:startIconTint="@color/purple_700"
+            app:endIconMode="password_toggle"
+            app:endIconTint="@color/purple_700"
+            android:layout_below="@id/edUsername"
             android:layout_marginTop="8dp"
-            android:layout_marginRight="8dp"
+            app:boxBackgroundColor="@color/white"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Mật khẩu"
-            android:textColor="#B6A8A8"
-            android:textSize="12sp" />
 
-        <EditText
+            app:startIconDrawable="@drawable/lock_48px"
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:textSize="10sp"
+
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/edRepeatPassword"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_below="@id/edPassword"
-            android:layout_marginLeft="8dp"
+            app:boxBackgroundColor="@color/white"
             android:layout_marginTop="8dp"
-            android:layout_marginRight="8dp"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Nhập lại mật khẩu"
-            android:textColor="#B6A8A8"
-            android:textSize="12sp" />
+            app:endIconMode="password_toggle"
+            app:endIconTint="@color/purple_700"
+            app:startIconDrawable="@drawable/lock_48px"
+            app:startIconTint="@color/purple_700"
+             >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:hint="Confirm Password"
+                android:textSize="10sp"
+
+                />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
+            style="?attr/materialButtonOutlinedStyle"
             android:id="@+id/buttonRegistration"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Đăng ký"
+            android:fontFamily="sans-serif"
+            android:textColor="@color/purple_700"
+            app:strokeColor="@color/purple_700"
+            app:strokeWidth="1.5dp" />
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/circleLoadingProgress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/edRepeatPassword"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="50dp"
-            android:text="Đăng ký" />
+            android:visibility="gone"
+            android:layout_gravity="center"
+            app:indicatorColor="@color/item_chat_me"
+            android:indeterminate="true"
+            />
 
         <TextView
             android:id="@+id/back"
             android:layout_width="match_parent"
+            android:layout_marginTop="8dp"
             android:layout_height="wrap_content"
-            android:layout_below="@id/buttonRegistration"
-            android:layout_marginStart="50dp"
-            android:layout_marginEnd="50dp"
+            android:layout_centerHorizontal="true"
             android:text="Quay lại trang đăng nhập"
             android:textAlignment="center"
             android:textColor="#3F51B5" />
-    </RelativeLayout>
+
+
+
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
