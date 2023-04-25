@@ -63,6 +63,9 @@ public class ChatActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         FileInputStream fis = null, fisChatCompletion =null;
 
+        messageRecyclerView = findViewById(R.id.recycler_gchat);
+
+
         HttpRequest httpRequest = new HttpRequest("http://10.0.2.2:3124");
         try {
             fis = getApplicationContext().openFileInput("user_session_info");
@@ -130,17 +133,14 @@ public class ChatActivity extends AppCompatActivity {
                                             e.printStackTrace();
                                         }
                                     }
-                                    messageRecyclerView = findViewById(R.id.recycler_gchat);
+
                                     TextView emptyView = findViewById(R.id.empty_view);
                                     try {
-
-
                                         if (arrMessages.isEmpty()) {
                                             System.out.println("-------------here");
                                             emptyView.setVisibility(View.VISIBLE);
                                             messageRecyclerView.setVisibility(View.GONE);
                                         } else {
-
                                             messageListAdapter = new MessageListAdapter(getApplicationContext(), arrMessages);
                                             messageRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                                             messageRecyclerView.setAdapter(messageListAdapter);
@@ -174,76 +174,76 @@ public class ChatActivity extends AppCompatActivity {
 //                    CountDownLatch cdLatch = new CountDownLatch(2);
                     final JSONArray[] resTest = {null};
 
-                            try {
-                                String jsonString = "{\"user_id\":\"" + userID + "\"," +
-                                        " \n\"chat_id\":\"" + chatCompletionId + "\"," +
-                                        "\n\"prompt\":\"" + meMessage + "\"}";
-                                if (arrMessages.size() == 1) {
-                                    httpRequest.arrResPost(jsonString, "/chatgpt/chat", new OnResponseListener() {
+                    try {
+                        String jsonString = "{\"user_id\":\"" + userID + "\"," +
+                                " \n\"chat_id\":\"" + chatCompletionId + "\"," +
+                                "\n\"prompt\":\"" + meMessage + "\"}";
+                        if (arrMessages.size() == 1) {
+                            httpRequest.arrResPost(jsonString, "/chatgpt/chat", new OnResponseListener() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+
+                                }
+
+                                @Override
+                                public void onResponseArray(JSONArray response) {
+                                    runOnUiThread(new Runnable() {
                                         @Override
-                                        public void onResponse(JSONObject response) {
+                                        public void run() {
+                                            resTest[0] = response;
+                                            try{
+                                                JSONObject messageJSON = resTest[0].getJSONObject(0);
+                                                JSONObject chatCompletionJSON = resTest[0].getJSONObject(1);
 
-                                        }
-
-                                        @Override
-                                        public void onResponseArray(JSONArray response) {
-                                            runOnUiThread(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    resTest[0] = response;
-                                                    try{
-                                                        JSONObject messageJSON = resTest[0].getJSONObject(0);
-                                                        JSONObject chatCompletionJSON = resTest[0].getJSONObject(1);
-
-                                                        chatCompletionId = chatCompletionJSON.getString("chat_completion");
-                                                        Message messageResponse = new Message(messageJSON.getString("content"), System.currentTimeMillis(), new User("assistant"), 1);
-                                                        arrMessages.add(messageResponse);
-                                                        messageRecyclerView.setAdapter(messageListAdapter);
-                                                        messageRecyclerView.scrollToPosition(arrMessages.size() - 1);
-                                                    }catch (JSONException e){
-                                                        e.printStackTrace();
-                                                    }
-                                                }
-                                            });
-                                        }
-                                    });
-                                } else {
-                                    httpRequest.arrResPost(jsonString, "/chatgpt/continueChat", new OnResponseListener() {
-                                        @Override
-                                        public void onResponse(JSONObject response) {
-
-                                        }
-
-                                        @Override
-                                        public void onResponseArray(JSONArray response) {
-                                            runOnUiThread(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    resTest[0] = response;
-                                                    try {
-                                                    JSONObject messageJSON = resTest[0].getJSONObject(0);
-                                                    JSONObject chatCompletionJSON = resTest[0].getJSONObject(1);
-
-                                                        chatCompletionId = chatCompletionJSON.getString("chat_completion");
-                                                        Message messageResponse = new Message(messageJSON.getString("content"), System.currentTimeMillis(), new User("assistant"), 1);
-                                                        arrMessages.add(messageResponse);
-                                                        messageRecyclerView.setAdapter(messageListAdapter);
-                                                        messageRecyclerView.scrollToPosition(arrMessages.size() - 1);
-                                                    }catch (JSONException e){
-                                                        e.printStackTrace();
-                                                    }
-                                                }
-                                            });
+                                                chatCompletionId = chatCompletionJSON.getString("chat_completion");
+                                                Message messageResponse = new Message(messageJSON.getString("content"), System.currentTimeMillis(), new User("assistant"), 1);
+                                                arrMessages.add(messageResponse);
+                                                messageRecyclerView.setAdapter(messageListAdapter);
+                                                messageRecyclerView.scrollToPosition(arrMessages.size() - 1);
+                                            }catch (JSONException e){
+                                                e.printStackTrace();
+                                            }
                                         }
                                     });
                                 }
+                            });
+                        } else {
+                            httpRequest.arrResPost(jsonString, "/chatgpt/continueChat", new OnResponseListener() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+
+                                }
+
+                                @Override
+                                public void onResponseArray(JSONArray response) {
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            resTest[0] = response;
+                                            try {
+                                                JSONObject messageJSON = resTest[0].getJSONObject(0);
+                                                JSONObject chatCompletionJSON = resTest[0].getJSONObject(1);
+
+                                                chatCompletionId = chatCompletionJSON.getString("chat_completion");
+                                                Message messageResponse = new Message(messageJSON.getString("content"), System.currentTimeMillis(), new User("assistant"), 1);
+                                                arrMessages.add(messageResponse);
+                                                messageRecyclerView.setAdapter(messageListAdapter);
+                                                messageRecyclerView.scrollToPosition(arrMessages.size() - 1);
+                                            }catch (JSONException e){
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    });
+                                }
+                            });
+                        }
 
 
 //                                cdLatch.countDown();
 
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
 
                     //                        cdLatch.await();
                     messageRecyclerView.setAdapter(messageListAdapter);

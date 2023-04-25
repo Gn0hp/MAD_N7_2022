@@ -38,6 +38,9 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp")
     implementation("com.squareup.okhttp3:logging-interceptor")
 
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+
     // load image from url and parse to round image
     implementation 'com.squareup.picasso:picasso:2.8'
     implementation 'com.makeramen:roundedimageview:2.3.0'

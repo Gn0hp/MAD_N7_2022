@@ -3,6 +3,7 @@ package com.example.myapplication1;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,10 +13,17 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.myapplication1.models.User;
+import com.example.myapplication1.utils.ApiClient;
+import com.example.myapplication1.utils.ChatService;
+import com.example.myapplication1.utils.response.RegisterResponse;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RegisterActivity extends AppCompatActivity {
     @Override
@@ -56,40 +64,53 @@ public class RegisterActivity extends AppCompatActivity {
                     registerBtn.setVisibility(View.GONE);
                     circularProgressIndicator.setVisibility(View.VISIBLE);
                     Toast.makeText(RegisterActivity.this, "Confirm password not match", Toast.LENGTH_SHORT).show();
+                    registerBtn.setVisibility(View.VISIBLE);
+                    circularProgressIndicator.setVisibility(View.GONE);
                     return;
                 }
                 if(username.equals("") || password.equals("") || email.equals("") || phoneNumber.equals("")){
                     registerBtn.setVisibility(View.GONE);
                     circularProgressIndicator.setVisibility(View.VISIBLE);
                     Toast.makeText(RegisterActivity.this, "Please fill in all field of this form", Toast.LENGTH_SHORT).show();
+                    registerBtn.setVisibility(View.VISIBLE);
+                    circularProgressIndicator.setVisibility(View.GONE);
+
+                    //restart an activity
                     return;
                 }
                 User u = new User(email, username, password, phoneNumber);
-                boolean savingRes = u.registerNewUser(u.toJson().toString());
-                if(savingRes){
-                    Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            startActivity(new Intent(getApplicationContext(), MainActivity2.class));
 
-                            finish();
+                Context context = getApplicationContext();
+                ChatService chatService = ApiClient.createService(ChatService.class, context);
+                Call<RegisterResponse> call = chatService.authenSignup(u);
+                call.enqueue(new Callback<RegisterResponse>() {
+                    @Override
+                    public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
+                        RegisterResponse registerResponse = response.body();
+                        if(registerResponse.getResponse().equals("true")) {
+                            Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+
+                                    finish();
+                                }
+                            }, 2000);
                         }
-                    }, 5000);
-                }
-                else{
-                    Toast.makeText(RegisterActivity.this, "not success", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(getApplicationContext(), this.getClass()));
-                }
-            }
-        });
-        tilConfirmPassword.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+                        else{
+                            Toast.makeText(RegisterActivity.this, "not success", Toast.LENGTH_SHORT).show();
+                            Intent intent = getIntent();
+                            finish();
+                            startActivity(intent);
+                        }
+                    }
 
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                tilConfirmPassword.setHelperText("Not compatible");
+                    @Override
+                    public void onFailure(Call<RegisterResponse> call, Throwable t) {
 
-                circularProgressIndicator.setIndeterminate(true);
+                    }
+                });
             }
         });
 

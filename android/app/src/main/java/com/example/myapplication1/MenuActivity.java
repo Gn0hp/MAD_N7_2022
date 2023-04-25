@@ -2,54 +2,33 @@ package com.example.myapplication1;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.card.MaterialCardView;
 
-import java.util.Objects;
+public class MenuActivity extends AppCompatActivity {
 
-public class HomeActivity extends AppCompatActivity {
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId()==android.R.id.home){
-            onBackPressed();
-        }
-        return super.onOptionsItemSelected(item);
-    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        setContentView(R.layout.home);
-
-        Button btnChat = findViewById(R.id.btn_chat);
-        Button btn_diagnose = findViewById(R.id.btn_diagnose);
+        setContentView(R.layout.menu);
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView)findViewById(R.id.bottom_nav);
-        bottomNavigationView.setSelectedItemId(R.id.ic_home_nav);
+        bottomNavigationView.setSelectedItemId(R.id.ic_more_nav);
+        MaterialCardView materialCardView = findViewById(R.id.mcvLogout);
 
-        btnChat.setOnClickListener(new View.OnClickListener() {
+        materialCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), ChatActivity.class));
-            }
-        });
-
-        btn_diagnose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), Diagnose.class));
+                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
             }
         });
 

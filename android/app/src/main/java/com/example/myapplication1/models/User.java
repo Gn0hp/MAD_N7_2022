@@ -2,9 +2,14 @@ package com.example.myapplication1.models;
 
 import android.content.Context;
 
+
 import com.example.myapplication1.models.bases.IUser;
+import com.example.myapplication1.utils.ApiClient;
+import com.example.myapplication1.utils.ChatService;
 import com.example.myapplication1.utils.HttpRequest;
 import com.example.myapplication1.utils.OnResponseListener;
+import com.example.myapplication1.utils.request.UserRequest;
+import com.example.myapplication1.utils.response.UserLoginResponse;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -14,6 +19,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.HashMap;
 import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class User extends IUser {
     private String phoneNumber;
@@ -69,43 +78,30 @@ public class User extends IUser {
         this.profileUrl = profileUrl;
     }
 
-    public Map<User,String> authenLogin(String json){
-        HttpRequest httpRequest = new HttpRequest("http://10.0.2.2:3124");
-        final JSONObject[] jsonRes = new JSONObject[1];
+    public static Map<User,String> authenLogin(UserRequest user, Context context){
+        ChatService chatService = ApiClient.createService(ChatService.class, context);
+        Call<UserLoginResponse> call = chatService.authenLogin(user);
+        final User[] u = new User[1];
+        final String[] chatCompletionId = new String[1];
+        call.enqueue(new Callback<UserLoginResponse>() {
+            @Override
+            public void onResponse(Call<UserLoginResponse> call, Response<UserLoginResponse> response) {
+                UserLoginResponse userLogin = response.body();
+                u[0] = new User(userLogin.getId(), userLogin.getName(), userLogin.getEmail(), userLogin.getPhoneNumber(), userLogin.getUsername(), userLogin.getProfileURL(), userLogin.getUsername(), userLogin.getPassword());
 
-                 httpRequest.post(json, "/register/login", new OnResponseListener() {
-                     @Override
-                     public void onResponse(JSONObject response) {
-                         jsonRes[0] = response;
-
-                     }
-
-                     @Override
-                     public void onResponseArray(JSONArray response) {
-
-                     }
-                 });
-        try {
-            Thread.sleep(2000);
-            if(jsonRes[0] != null){
-                User u = new User(
-                        (String) jsonRes[0].get("_id"),
-                        (String) jsonRes[0].get("name"),
-                        (String) jsonRes[0].get("email"),
-                        (String) jsonRes[0].get("phoneNumber"),
-                        (String) jsonRes[0].get("username"),
-                        (String) jsonRes[0].get("profileURL"),
-                        (String) jsonRes[0].get("username"),
-                        (String) jsonRes[0].get("password")
-
-                );
-                String chatCompletionId = (String) jsonRes[0].get("chat_completion_id");
-                Map<User, String> map  = new HashMap<>();
-                map.put(u,chatCompletionId);
-                return map;
+                chatCompletionId[0] = userLogin.getChatCompletion();
             }
-            return null;
-        } catch (InterruptedException | JSONException e) {
+            @Override
+            public void onFailure(Call<UserLoginResponse> call, Throwable t) {
+
+            }
+        });
+
+        try {
+            Map<User, String> map  = new HashMap<>();
+            map.put(u[0], chatCompletionId[0]);
+            return map;
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
@@ -113,17 +109,17 @@ public class User extends IUser {
         HttpRequest httpRequest = new HttpRequest("http://10.0.2.2:3124");
         final JSONObject[] jsonRes = new JSONObject[1];
 
-                 httpRequest.post(json, "/register/signup", new OnResponseListener() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        jsonRes[0] = response;
-                    }
+        httpRequest.post(json, "/register/signup", new OnResponseListener() {
+            @Override
+            public void onResponse(JSONObject response) {
+                jsonRes[0] = response;
+            }
 
-                    @Override
-                    public void onResponseArray(JSONArray response) {
+            @Override
+            public void onResponseArray(JSONArray response) {
 
-                    }
-                });
+            }
+        });
         try {
             if(jsonRes[0] == null){
                 return false;

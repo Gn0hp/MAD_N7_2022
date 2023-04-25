@@ -11,6 +11,7 @@ router.register(r'payment', views.PaymentViewSet)
 router.register(r'cart', views.CartViewSet)
 router.register(r'cart_product', views.CartProductViewSet)
 router.register(r'user', views.AuthUserViewSet)
+router.register(r'ai', views.AiView)
 # router.register(r'category', views.CategoryViewSet)
 
 # The API URLs are now determined automatically by the router.

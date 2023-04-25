@@ -96,4 +96,10 @@ public class Api {
         String data = httpRequest.get();
         return  data;
     }
+    public static String call_ai(String age, String bmi, String glucose){
+        String url = "http://"+ip+":6603/ai/tieuduong/?age="+age+"&bmi="+bmi+"&glucose="+glucose+"";
+        HttpRequest httpRequest = new HttpRequest(url);
+        String data = httpRequest.get();
+        return  data;
+    }
 }

@@ -83,6 +83,18 @@ public class MessageListAdapter extends RecyclerView.Adapter {
         }
         void bind(Message message){
             messageText.setText(message.getMessage());
+            Date date = new Date(message.getCreatedAt());
+            String hour = Integer.toString(date.getHours());
+            String minute = Integer.toString(date.getMinutes());
+            while(hour.length()<2){
+                hour = "0"+hour;
+            }
+            while(minute.length()<2){
+                minute = "0" +minute;
+            }
+            String toText = hour+":"+minute;
+            System.out.println(toText);
+            timeText.setText(toText);
 
         }
     }

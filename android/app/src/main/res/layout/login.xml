@@ -76,6 +76,7 @@
                 android:textColor="@color/purple_700"/>
 
             <TextView
+                android:id="@+id/txtSignup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Đăng ký tài khoản"
@@ -104,6 +105,24 @@
             app:iconSize="60dp"
             app:icon="@drawable/fingerprint_48px"
             tools:ignore="SpeakableTextPresentCheck" />
+        <FrameLayout
+            android:id="@+id/btnLoginLoadingContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/buttonLogin"
+            android:layout_gravity="center"
+            ></FrameLayout>
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/circleLoadingProgress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_gravity="center"
+            app:indicatorColor="@color/item_chat_me"
+            android:indeterminate="true"
+            />
+
+
         <TextView
             android:text="Đăng nhập bằng"
             android:layout_width="wrap_content"

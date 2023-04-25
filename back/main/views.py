@@ -2,6 +2,7 @@ from django.shortcuts import render
 from rest_framework import status, viewsets
 from .models import *
 from .serializer import *
+from .main import *
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.decorators import action
@@ -10,7 +11,7 @@ from django.forms.models import model_to_dict
 from django.core.paginator import Paginator
 import json
 from django.core import serializers
-
+from rest_framework.views import APIView
 
 def queryset_to_json(data):
     json_data = json.loads(serializers.serialize("json", [data]))
@@ -348,3 +349,34 @@ class CartProductViewSet(viewsets.ModelViewSet):
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+class AiView(viewsets.ModelViewSet):
+
+    queryset = CartProduct.objects.all()
+    serializer_class = CartProductSerializer
+
+    age = openapi.Parameter(
+        'age', openapi.IN_QUERY, description='age',  type=openapi.TYPE_STRING)
+    bmi = openapi.Parameter(
+        'bmi', openapi.IN_QUERY, description='bmi',  type=openapi.TYPE_STRING)
+    glucose = openapi.Parameter(
+        'glucose', openapi.IN_QUERY, description='glucose',  type=openapi.TYPE_STRING)
+    @swagger_auto_schema(method="get", manual_parameters=[age,bmi,glucose])
+    @action(detail=False, methods=['get'])
+    def tieuduong(self, request, *args, **kwargs):
+        data=0
+        if request.query_params.get('age', None) == None or request.query_params.get('bmi', None) == None or request.query_params.get('glucose', None) == None :
+            return Response(data=False, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            age = request.query_params.get('age', None)
+            bmi = request.query_params.get('bmi', None)
+            glucose = request.query_params.get('glucose', None)
+            try:
+                data=predict_ct(int(age),int(bmi),int(glucose))
+            except:
+                return Response(data=False, status=status.HTTP_400_BAD_REQUEST)
+
+        if data:
+            return Response(data="Có khả năng bị tiểu đường", status=status.HTTP_200_OK)
+        else:
+            return Response(data="Không bị tiểu đường", status=status.HTTP_200_OK)
