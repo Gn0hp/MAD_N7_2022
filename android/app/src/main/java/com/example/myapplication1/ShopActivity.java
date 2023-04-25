@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.myapplication1.adapters.ShopProductAdapter;
+import com.example.myapplication1.models.Attributes;
 import com.example.myapplication1.models.Product;
 import com.example.myapplication1.utils.Api;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -38,8 +39,12 @@ public class ShopActivity extends AppCompatActivity {
         // _______________________________Handle_______________________
 //        ArrayList<Product> products= Api.get_all_product();
         ArrayList<Product> products= new ArrayList<>();
-        products.add(new Product(1,"product1", "des1", 2, 300, new ArrayList<>()));
-        products.add(new Product(2,"product2", "des2", 3, 600, new ArrayList<>()));
+        ArrayList<Attributes> attributes = new ArrayList<>();
+        attributes.add(new Attributes(1,"name 1", "val1"));
+        attributes.add(new Attributes(2,"name 2", "val3"));
+
+        products.add(new Product(1,"product1", "des1", 2, 300, attributes));
+        products.add(new Product(2,"product2", "des2", 3, 600, attributes));
 
         ShopProductAdapter shopProductAdapter = new ShopProductAdapter(getApplicationContext(), products);
         listView.setAdapter(shopProductAdapter);
@@ -48,7 +53,7 @@ public class ShopActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Product product = products.get(position);
-                startActivity(new Intent(getApplicationContext(), CartActivity.class)
+                startActivity(new Intent(getApplicationContext(), DetailActivity.class).putExtra("product", product)
                 );
             }
         });

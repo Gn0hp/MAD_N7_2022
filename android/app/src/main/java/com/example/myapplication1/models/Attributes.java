@@ -1,6 +1,8 @@
 package com.example.myapplication1.models;
 
-public class Attributes {
+import java.io.Serializable;
+
+public class Attributes implements Serializable {
     private int id;
     private String name;
     private String value;
