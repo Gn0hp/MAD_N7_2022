@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.myapplication1.models.User;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -39,8 +40,8 @@ public class LoginActivity extends AppCompatActivity {
 
         setContentView(R.layout.login);
 
-        EditText edUsername = findViewById(R.id.edUsername);
-        EditText edPassword = findViewById(R.id.edPassword);
+        TextInputLayout edUsername = findViewById(R.id.edUsername);
+        TextInputLayout edPassword = findViewById(R.id.edPassword);
 
         Button btnLogin = findViewById(R.id.buttonLogin);
 
@@ -56,8 +57,8 @@ public class LoginActivity extends AppCompatActivity {
                 circleLoadingProgress.setIndeterminate(true);
 
 
-                String username = edUsername.getText().toString();
-                String password = edPassword.getText().toString();
+                String username = edUsername.getEditText().getText().toString();
+                String password = edPassword.getEditText().getText().toString();
 
                 if(username.equals("") || password.equals("")){
                     Toast.makeText(LoginActivity.this, "Please fill in the login form to continue", Toast.LENGTH_SHORT).show();

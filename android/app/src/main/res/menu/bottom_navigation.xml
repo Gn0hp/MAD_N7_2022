@@ -1,30 +1,35 @@
-<?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/ic_diagnose_nav"
-        android:icon="@drawable/diagnose_svgrepo_com"
-        android:title="Diagnose"
-        />
-    <item
-        android:id="@+id/ic_chat_nav"
-        android:icon="@drawable/chat_square_svgrepo_com"
-        android:title="Chat"
-        />
-    <item
         android:id="@+id/ic_home_nav"
-        android:icon="@drawable/home_svgrepo_com"
-        android:title="Home"
+        android:icon="@drawable/house_icon"
+        android:title="Trang chủ"
+        android:enabled="true"
         />
+<!--    <item-->
+<!--        android:id="@+id/ic_chat_nav"-->
+<!--        android:icon="@drawable/messages_question_24"-->
+<!--        android:title="Hỏi đáp"-->
+<!--        android:enabled="true"-->
+<!--        />-->
     <item
         android:id="@+id/ic_store_nav"
-        android:icon="@drawable/shopping_cart_svgrepo_com"
-        android:title="Drug store"
+        android:icon="@drawable/shopping_cart"
+        android:title="Cửa hàng"
+        android:enabled="true"
         />
-
+<!--    <item-->
+<!--        android:id="@+id/ic_diagnose_nav"-->
+<!--        android:icon="@drawable/stethoscope_24"-->
+<!--        android:title="Chẩn đoán"-->
+<!--        android:enabled="true"-->
+<!--        />-->
     <item
         android:id="@+id/ic_more_nav"
         android:icon="@drawable/line_3_svgrepo_com"
-        android:title="More"
+        android:title="Menu"
+        android:enabled="true"
         />
+
+
 </menu>

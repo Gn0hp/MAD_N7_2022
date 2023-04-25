@@ -75,7 +75,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                             finish();
                         }
-                    }, 2000);
+                    }, 5000);
                 }
                 else{
                     Toast.makeText(RegisterActivity.this, "not success", Toast.LENGTH_SHORT).show();

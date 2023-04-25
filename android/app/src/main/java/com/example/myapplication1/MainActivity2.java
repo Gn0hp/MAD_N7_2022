@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -29,7 +30,7 @@ public class MainActivity2 extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         setContentView(R.layout.test_homepage);
 
-        BottomNavigationView bottomNavigationView = (BottomNavigationView)findViewById(R.id.bottom_nav);
+        BottomNavigationView bottomNavigationView = (BottomNavigationView)findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.ic_home_nav);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @SuppressLint("NonConstantResourceId")
@@ -37,12 +38,12 @@ public class MainActivity2 extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Fragment fragment;
                 switch (item.getItemId()){
-                    case R.id.ic_diagnose_nav:
-                        Toast.makeText(MainActivity2.this, "Diagnose", Toast.LENGTH_SHORT).show();
-                        return true;
-                    case R.id.ic_chat_nav:
-                        Toast.makeText(MainActivity2.this, "Chat", Toast.LENGTH_SHORT).show();
-                        return true;
+//                    case R.id.ic_diagnose_nav:
+//                        Toast.makeText(MainActivity2.this, "Diagnose", Toast.LENGTH_SHORT).show();
+//                        return true;
+//                    case R.id.ic_chat_nav:
+//                        Toast.makeText(MainActivity2.this, "Chat", Toast.LENGTH_SHORT).show();
+//                        return true;
                     case R.id.ic_home_nav:
                         Toast.makeText(MainActivity2.this, "Home", Toast.LENGTH_SHORT).show();
                         return true;
