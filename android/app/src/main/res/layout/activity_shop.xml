@@ -19,41 +19,8 @@
             android:gravity="top"
             android:layout_marginTop="4dp">
 
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:layout_marginLeft="8dp"
-                android:background="@drawable/custom_edit_text"
-                android:ems="15"
-                android:text="Bạn cần tìm sản phẩm gì?"
-                android:textColor="@color/text_search"
-                android:textSize="16dp"
-                android:layout_weight="10"
-                android:inputType="text"/>
 
 
-            <Button
-                android:id="@+id/ic_search_nav"
-                style="@style/Widget.Material3.Button.IconButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:icon="@drawable/bell_24"
-                android:layout_gravity="right"
-                app:iconSize="25dp"
-                android:layout_weight="1"
-                app:iconTint="@color/btn_nav"
-                tools:ignore="SpeakableTextPresentCheck" />
-            <Button
-                android:id="@+id/ic_cart_nav"
-                style="@style/Widget.Material3.Button.IconButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                app:icon="@drawable/shopping_cart"
-                android:layout_gravity="right"
-                app:iconSize="25dp"
-                app:iconTint="@color/btn_nav"
-                tools:ignore="SpeakableTextPresentCheck" />
 
         </LinearLayout>
 
@@ -75,7 +42,9 @@
             android:layout_margin="8dp">
 
             <ListView
+                android:id="@+id/listProduct"
                 android:layout_width="match_parent"
+
                 android:layout_height="wrap_content">
 
             </ListView>
@@ -93,12 +62,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        app:menu="@menu/bottom_navigation"
-        >
+        app:menu="@menu/bottom_navigation">
+
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

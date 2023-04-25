@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:id="@+id/ic_notify01"
+        android:icon="@drawable/bell_24"
+        android:title="Notify"
+        android:enabled="true"
+        />
+    <item
+        android:id="@+id/ic_cart_nav01"
+        android:icon="@drawable/shopping_cart"
+        android:title="Cart"
+        android:enabled="true"
+        />
+
+</menu>

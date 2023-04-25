@@ -30,8 +30,8 @@ public class HttpRequest {
         this.url = url;
     }
 
-    public String get(String params) {
-        String Url = url.concat(params);
+    public String get() {
+        String Url = url;
         System.out.println(Url);
         Request req = new Request.Builder()
                 .url(Url)
