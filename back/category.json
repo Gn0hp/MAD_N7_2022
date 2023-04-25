@@ -1,0 +1,11 @@
+[
+    {
+        "model": "main.category",
+        "pk": 1,
+        "fields": {
+            "name": "Thuốc tiểu đuờng",
+            "description": "Thuốc tiểu đuờng",
+            "attribute": []
+        }
+    }
+]

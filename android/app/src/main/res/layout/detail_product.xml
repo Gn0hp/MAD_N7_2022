@@ -29,28 +29,43 @@
         android:orientation="vertical"
         android:layout_margin="8dp">
 
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            />
         <TextView
+            android:id="@+id/detailProductName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:contentDescription="Tên sản phẩm"
+            android:text="Ten san pham"
             android:textSize="24sp"
             android:textStyle="bold"
             android:textColor="@color/black"/>
 
         <TextView
+            android:id="@+id/detailProductDes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:contentDescription="Giá bán"
+            android:contentDescription="Mô tả"
+            android:text="Mô tả"
             android:textColor="@color/green_9688"
             android:textSize="20dp"
             android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/detailProductPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:contentDescription="Giá"
+            android:text="Giá"
+            android:textColor="@color/green_9688"
+            android:textSize="20dp"
+            android:textStyle="bold"/>
+
+        <ListView
+            android:id="@+id/attrArr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"></ListView>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

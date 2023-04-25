@@ -60,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+//                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                 CircularProgressIndicator circleLoadingProgress = findViewById(R.id.circleLoadingProgress);
                 btnLogin.setVisibility(View.GONE);
                 circleLoadingProgress.setVisibility(View.VISIBLE);

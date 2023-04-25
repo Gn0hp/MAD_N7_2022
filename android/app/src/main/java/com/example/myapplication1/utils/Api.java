@@ -64,11 +64,13 @@ public class Api {
 
 //             list = (ArrayList) jsonObject.get("results");
              JSONArray jsonArray = (JSONArray) jsonObject.get("results");
+             System.out.println(jsonArray);
              try{
                  for (int i = 0; i < jsonArray.length(); i++) {
 //                 arr.getJSONObject(i);
                      JSONObject jsonObject3 = (JSONObject)  jsonArray.get(i);
                      JSONObject jsonObject1 = (JSONObject)  jsonObject3.get("product");
+                     System.out.println(jsonObject1);
                      JSONArray jsonArrayAttribute = (JSONArray) jsonObject1.get("attribute");
                      ArrayList<Attributes> listAttribute = new ArrayList<>();
                      for (int j = 0; j < jsonArrayAttribute.length(); j++) {

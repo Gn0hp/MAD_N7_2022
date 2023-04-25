@@ -305,7 +305,7 @@ class CartViewSet(viewsets.ModelViewSet):
         paginator = Paginator(data, page_size)
         serializer = self.get_serializer(
             paginator.get_page(page), many=True)
-        if len(data)!=1:
+        if len(data)!=1:    
             return Response( data={"Cho cai user chuan vao cai de"}, status=status.HTTP_400_BAD_REQUEST)
         data_cart=data[0].cartproduct_set.all()
         json_data_format=[]
@@ -313,6 +313,9 @@ class CartViewSet(viewsets.ModelViewSet):
             json_tmp={}
             json_tmp["product"]=queryset_to_json(data_index.product)
             json_tmp["quantity"]=data_index.quantity
+            arr_attrubute = json_tmp["product"]["attribute"]
+            data_attribute = Attribute.objects.filter(pk__in=arr_attrubute)
+            json_tmp["product"]["attribute"]=queryset_arr_to_json(data_attribute)
             json_data_format.append(json_tmp)
         return Response({
             'results': json_data_format,
@@ -372,7 +375,11 @@ class AiView(viewsets.ModelViewSet):
             bmi = request.query_params.get('bmi', None)
             glucose = request.query_params.get('glucose', None)
             try:
+                print(age)
+                print(bmi)
+                print(glucose)
                 data=predict_ct(int(age),int(bmi),int(glucose))
+                print(data)
             except:
                 return Response(data=False, status=status.HTTP_400_BAD_REQUEST)
 

@@ -38,5 +38,5 @@ prediction = knn.predict([[Glucose, BMI, Age]])
 print(prediction)
 
 def predict_ct(age,bmi,glucose):
-    prediction = knn.predict([[Glucose, BMI, Age]])
+    prediction = knn.predict([[glucose, bmi, age]])
     return prediction[0]

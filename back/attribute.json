@@ -1,0 +1,182 @@
+[
+    {
+        "model": "main.attribute",
+        "pk": 1,
+        "fields": {
+            "name": "Đối tượng sử dụng",
+            "value": "Tiểu đường typ 2, khi tế bào đảo tụy vẫn còn khả năng tiết Insulin",
+            "type": "number"
+        }
+    },
+    {
+        "model": "main.attribute",
+        "pk": 2,
+        "fields": {
+            "name": "Chống chỉ định",
+            "value": "Tiểu đường typ 1, tiểu đường thai kỳ và người suy gan, suy thận.",
+            "type": "number"
+        }
+    },
+    {
+        "model": "main.attribute",
+        "pk": 3,
+        "fields": {
+            "name": "Tác dụng không mong muốn",
+            "value": "Hạ đường huyết quá mức, Tăng cân, Rối loạn tiêu hóa, Vàng da ứ mật",
+            "type": "number"
+        }
+    },
+    {
+        "model": "main.attribute",
+        "pk": 4,
+        "fields": {
+            "name": "Liều dùng (Theo chỉ định của bác sĩ chuyên khoa)",
+            "value": "Liều khởi đầu 30-60 mg/ngày.",
+            "type": "number"
+        }
+    },
+    {
+        "model": "main.attribute",
+        "pk": 5,
+        "fields": {
+            "name": "Đối tượng sử dụng",
+            "value": "Tiểu đường typ 2",
+            "type": "number"
+        }
+    },
+    {
+        "model": "main.attribute",
+        "pk": 6,
+        "fields": {
+            "name": "Chống chỉ định",
+            "value": "Tiểu đường thai kỳ, bệnh nhân suy gan, suy thận, suy hô hấp",
+            "type": "number"
+        }
+    },
+    {
+        "model": "main.attribute",
+        "pk": 7,
+        "fields": {
+            "name": "Tác dụng không mong muốn",
+            "value": "Miệng có vị kim loại, Rối loạn tiêu hóa: Chán ăn, buồn nôn, tiêu chảy, Sụt cân nếu dùng kéo dài",
+            "type": "number"
+        }
+    },
+    {
+        "model": "main.attribute",
+        "pk": 8,
+        "fields": {
+            "name": "Liều dùng (Theo chỉ định của bác sĩ chuyên khoa)",
+            "value": "Liều khởi đầu 500 – 800 mg/ngày",
+            "type": "number"
+        }
+    },
+    {
+        "model": "main.attribute",
+        "pk": 9,
+        "fields": {
+            "name": "Đối tượng sử dụng",
+            "value": "Tiểu đường typ 2",
+            "type": "number"
+        }
+    },
+    {
+        "model": "main.attribute",
+        "pk": 10,
+        "fields": {
+            "name": "Chống chỉ định",
+            "value": "Rối loạn tiêu hóa. Rối loạn chức năng gan. Gây ngứa, phát ban.",
+            "type": "number"
+        }
+    },
+    {
+        "model": "main.attribute",
+        "pk": 11,
+        "fields": {
+            "name": "Tác dụng không mong muốn",
+            "value": "Miệng có vị kim loại, Rối loạn tiêu hóa: Chán ăn, buồn nôn, tiêu chảy, Sụt cân nếu dùng kéo dài",
+            "type": "number"
+        }
+    },
+    {
+        "model": "main.attribute",
+        "pk": 12,
+        "fields": {
+            "name": "Liều dùng (Theo chỉ định của bác sĩ chuyên khoa)",
+            "value": "Liều khởi đầu 25mg/ lần, ngày 3 lần",
+            "type": "number"
+        }
+    },
+    {
+        "model": "main.attribute",
+        "pk": 13,
+        "fields": {
+            "name": "Gymnemic Acid",
+            "value": "25%",
+            "type": "number"
+        }
+    },
+    {
+        "model": "main.attribute",
+        "pk": 14,
+        "fields": {
+            "name": "Bitter Principle",
+            "value": "7.5%",
+            "type": "number"
+        }
+    },
+    {
+        "model": "main.attribute",
+        "pk": 15,
+        "fields": {
+            "name": "Flavonoid",
+            "value": "8%",
+            "type": "number"
+        }
+    },
+    {
+        "model": "main.attribute",
+        "pk": 16,
+        "fields": {
+            "name": "Murus Alba Extract",
+            "value": "100mg",
+            "type": "number"
+        }
+    },
+    {
+        "model": "main.attribute",
+        "pk": 17,
+        "fields": {
+            "name": "Cao dây thìa canh",
+            "value": "150mg",
+            "type": "number"
+        }
+    },
+    {
+        "model": "main.attribute",
+        "pk": 18,
+        "fields": {
+            "name": "Cao khổ qua",
+            "value": "100mg",
+            "type": "number"
+        }
+    },
+    {
+        "model": "main.attribute",
+        "pk": 19,
+        "fields": {
+            "name": "Cao chè vằng",
+            "value": "50mg",
+            "type": "number"
+        }
+    },
+    {
+        "model": "main.attribute",
+        "pk": 20,
+        "fields": {
+            "name": "Cao giảo cổ lam",
+            "value": "50mg",
+            "type": "number"
+        }
+    }
+]

@@ -8,15 +8,16 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.myapplication1.R;
+import com.example.myapplication1.models.Attributes;
 import com.example.myapplication1.models.Product;
 
 import java.util.ArrayList;
 
-public class ShopProductAdapter extends BaseAdapter {
+public class AttributeAdapter extends BaseAdapter {
     private Context context;
-    private ArrayList<Product> arr;
+    private ArrayList<Attributes> arr;
 
-    public ShopProductAdapter(Context context, ArrayList<Product> arr) {
+    public AttributeAdapter(Context context, ArrayList<Attributes> arr) {
         this.context = context;
         this.arr = arr;
     }
@@ -33,20 +34,18 @@ public class ShopProductAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return (long) arr.get(position).getId();
+        return arr.get(position).getId();
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View view = LayoutInflater.from(context).inflate(R.layout.product_item,null);
-        TextView name = view.findViewById(R.id.itemName);
-        TextView des = view.findViewById(R.id.itemDes);
-        TextView price = view.findViewById(R.id.itemPrice);
+        View view = LayoutInflater.from(context).inflate(R.layout.attr_item,null);
+        TextView name = view.findViewById(R.id.attrArrName);
+        TextView val = view.findViewById(R.id.attrArrValue);
 
-        Product product = arr.get(position);
-        name.setText(product.getName());
-        des.setText(product.getDescription());
-        price.setText(Integer.toString(product.getPrice())+" vnd");
+        Attributes attributes = arr.get(position);
+        name.setText(attributes.getName());
+        val.setText(attributes.getValue());
         return view;
     }
 }

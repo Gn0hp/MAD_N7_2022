@@ -1,0 +1,92 @@
+[
+    {
+        "model": "main.product",
+        "pk": 1,
+        "fields": {
+            "name": "Sulfonylurea",
+            "description": "Sulfonylurea có tác dụng kích thích tế bào đảo tụy tiết Insulin để đưa đường từ máu vào tế bào, giảm lượng đường trong máu",
+            "count": 500,
+            "category": 1,
+            "price": 121000,
+            "views": 4,
+            "attribute": [
+                1,
+                2,
+                3,
+                4
+            ]
+        }
+    },
+    {
+        "model": "main.product",
+        "pk": 2,
+        "fields": {
+            "name": "Metformin",
+            "description": "Thuốc ức chế hấp thu đường ở ruột, đồng thời tăng vận chuyển đường vào tế bào, ức chế tân tạo đường tại gan, có tác dụng ngăn đường máu tăng cao. Bên cạnh đó, thuốc còn có khả năng làm giảm Lipid máu",
+            "count": 500,
+            "category": 1,
+            "price": 142000,
+            "views": 3,
+            "attribute": [
+                8,
+                5,
+                6,
+                7
+            ]
+        }
+    },
+    {
+        "model": "main.product",
+        "pk": 3,
+        "fields": {
+            "name": "Thiazolidinedione",
+            "description": "Các thuốc Thiazolidinedione giúp các tế bào đích tăng nhạy cảm với Insulin, tăng cường quá trình vận chuyển đường từ máu vào tế bào để giảm đường huyết.",
+            "count": 500,
+            "category": 1,
+            "price": 161000,
+            "views": 3,
+            "attribute": [
+                9,
+                10,
+                11,
+                12
+            ]
+        }
+    },
+    {
+        "model": "main.product",
+        "pk": 4,
+        "fields": {
+            "name": "Teresa Herbs GlucoResistance",
+            "description": "Trong y học truyền thống Ayurveda của Ấn Độ, dây thìa canh đã được sử dụng từ lâu ở Ấn Độ trong nhiều thế kỷ và đã được chứng minh hỗ trợ chuyển hóa glucose lành mạnh bằng cách giúp giải phóng insulin và tăng cường chức năng hoạt động của tuyến tụy một cách lành mạnh",
+            "count": 500,
+            "category": 1,
+            "price": 1331000,
+            "views": 3,
+            "attribute": [
+                16,
+                13,
+                14,
+                15
+            ]
+        }
+    },
+    {
+        "model": "main.product",
+        "pk": 5,
+        "fields": {
+            "name": "Viên Dây Thìa Canh Mộc Can",
+            "description": "Hạ đường huyết đối với người có mức đường huyết vượt quá quy định, Ổn định đường huyết, tốt cho người bị tiểu đường, Phòng ngừa các biến chứng do tiểu đường",
+            "count": 500,
+            "category": 1,
+            "price": 450000,
+            "views": 3,
+            "attribute": [
+                17,
+                18,
+                19,
+                20
+            ]
+        }
+    }
+]
