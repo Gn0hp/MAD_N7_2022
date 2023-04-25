@@ -329,47 +329,22 @@ class CartProductViewSet(viewsets.ModelViewSet):
     queryset = CartProduct.objects.all()
     serializer_class = CartProductSerializer
 
-    # id = openapi.Parameter(
-    #     'id', openapi.IN_QUERY, description='id',  type=openapi.TYPE_STRING)
-    # user = openapi.Parameter(
-    #     'user', openapi.IN_QUERY, description='user',  type=openapi.TYPE_STRING)
-    # page = openapi.Parameter(
-    #     'current',
-    #     openapi.IN_QUERY,
-    #     description='Trang',
-    #     type=openapi.TYPE_STRING,
-    #     required=True
-    # )
-    # page_size = openapi.Parameter(
-    #     'page_size',
-    #     openapi.IN_QUERY,
-    #     description='Số lượng mỗi trang',
-    #     type=openapi.TYPE_STRING,
-    #     required=True
-    # )
-    # @swagger_auto_schema(method="get", manual_parameters=[user, page, page_size])
-    # @action(detail=False, methods=['get'])
-    # def get_by(self, request, format=None):
-    #     data = Cart.objects.all()
-    #     if request.query_params.get('user', None) != None:
-    #         data = data.filter(
-    #             pk=request.query_params.get('user', None)
-    #         )
-    #     page_size = request.query_params['page_size']
-    #     page = request.query_params['current']
-
-    #     paginator = Paginator(data, page_size)
-    #     serializer = self.get_serializer(
-    #         paginator.get_page(page), many=True)
-    #     json_data_format=[]
-    #     for data_index in data:
-    #         json_tmp=queryset_to_json(data_index)
-    #         attribute = json_tmp["attribute"]
-    #         data_attribute = Attribute.objects.filter(pk__in=attribute)
-    #         json_tmp["attribute"]=queryset_arr_to_json(data_attribute)
-    #         json_tmp["product"]=queryset_product_arr_to_json(data_index.product_set.all())
-    #         json_data_format.append(json_tmp)
-    #     return Response({
-    #         'results': json_data_format,
-    #         'count': len(json_data_format),
-    #     }, status=status.HTTP_200_OK)
+    product = openapi.Parameter(
+        'product', openapi.IN_QUERY, description='product',  type=openapi.TYPE_STRING)
+    cart = openapi.Parameter(
+        'cart', openapi.IN_QUERY, description='cart',  type=openapi.TYPE_STRING)
+    quantity = openapi.Parameter(
+        'quantity', openapi.IN_QUERY, description='quantity',  type=openapi.TYPE_STRING)
+    @swagger_auto_schema(method="get", manual_parameters=[quantity,cart,product])
+    @action(detail=False, methods=['get'])
+    def create_by(self, request, *args, **kwargs):
+        data = {
+            "quantity": request.query_params.get('quantity', None),
+            "cart": request.query_params.get('cart', None),
+            "product": request.query_params.get('product', None)
+            }
+        serializer = self.get_serializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
